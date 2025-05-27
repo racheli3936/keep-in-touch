@@ -70,7 +70,7 @@ const Router = createBrowserRouter([
                         children: [
                             {
                                 path: 'sendEmail',
-                                element: <EmailSender to={""} isOpen={false} onClose={undefined} />
+                                element: <EmailSender to={""} isOpen={false} onClose={() => {}} />
                             }
                         ]
                     },

@@ -3,7 +3,9 @@ import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, 
 import "./homeStyle.css";
 
 const Home = () => {
-  const [notifications, setNotifications] = useState([
+  const [notifications, 
+   // setNotifications
+  ] = useState([
     { id: 1, text: "יוסי שיתף קובץ חדש: 'מצגת פרויקט סיום'", time: "לפני 5 דקות" },
     { id: 2, text: "רונית הגיבה להודעה שלך", time: "לפני שעה" },
     { id: 3, text: "הוזמנת לקבוצה חדשה: 'טיול שנתי 2025'", time: "לפני 3 שעות" }
@@ -22,8 +24,8 @@ const Home = () => {
   ]);
 
   // פונקציה עזר כדי להשתמש בהשפעת hover
-  const [hoveredFile, setHoveredFile] = useState(null);
-  const [hoveredGroup, setHoveredGroup] = useState(null);
+  const [hoveredFile, setHoveredFile] = useState<number|null>(null);
+  const [hoveredGroup, setHoveredGroup] = useState<number|null>(null);
 
   return (
     <div className="container">

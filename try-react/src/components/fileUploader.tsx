@@ -105,7 +105,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     setIsUploading(true)
 
     try {
-      const response = await axios.get("https://localhost:7191/api/Upload/presigned-url", {
+      const response = await axios.get("https://keepintouch.onrender.com/api/Upload/presigned-url", {
         params: {
           fileName: file.name,
           fileType: file.type
@@ -151,7 +151,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   }
 
   const getDownloadUrl = async () => {
-    const response = await axios.get(`https://localhost:7191/api/Download/download-url/${file?.name}`, {
+    const response = await axios.get(`https://keepintouch.onrender.com/api/Download/download-url/${file?.name}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -161,7 +161,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
 
   const extractTextFromImg = async () => {
     try {
-      const response = await axios.post(`https://localhost:7191/api/File/readtext?fileName=${file?.name}`)
+      const response = await axios.post(`https://keepintouch.onrender.com/api/File/readtext?fileName=${file?.name}`)
       console.log(response.data);
       
       await setNewContent(response.data as string)
@@ -175,7 +175,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     
     try {
       await axios.put(
-        `https://localhost:7191/api/File/${EventsStore.currentEventAdd?.id}/content`,
+        `https://keepintouch.onrender.com/api/File/${EventsStore.currentEventAdd?.id}/content`,
         newContent,
         {
           headers: {

@@ -56,7 +56,7 @@ const OpenNewGroup = () => {
             await new Promise(resolve => setTimeout(resolve, 500));
             
             const token = localStorage.getItem('token');
-            const response = await axios.post('https://localhost:7191/api/Group', newGroup, {
+            const response = await axios.post('https://keepintouch.onrender.com/api/Group', newGroup, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

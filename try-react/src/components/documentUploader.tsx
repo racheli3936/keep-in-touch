@@ -16,7 +16,7 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
   const [file, setFile] = useState<File | null>(null)
   const [progress, setProgress] = useState(0)
   const [url, setUrl] = useState<string>("")
-  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [token] = useState(localStorage.getItem("token"))
   const [eventDate, setEventDate] = useState<string>("")
   const [isUploading, setIsUploading] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
@@ -100,7 +100,7 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
     setIsUploading(true)
     try {
       // Step 1: Get presigned URL from server
-      const response = await axios.get("https://localhost:7191/api/Upload/presigned-url", {
+      const response = await axios.get("https://keepintouch.onrender.com/api/Upload/presigned-url", {
         params: {
           fileName: file.name,
           fileType: file.type
@@ -141,7 +141,7 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
   }
 
   const getDownloadUrl = async () => {
-    const response = await axios.get(`https://localhost:7191/api/Download/download-url/${file?.name}`, {
+    const response = await axios.get(`https://keepintouch.onrender.com/api/Download/download-url/${file?.name}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

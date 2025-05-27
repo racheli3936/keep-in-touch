@@ -5,7 +5,7 @@ interface CustomTextFieldProps {
     label: string;
     required?: boolean;
     type?: string;
-    name:string;
+    name?:string;
     value?:string|undefined;
     onChange?:any;
     startAdornment?: React.ReactNode;

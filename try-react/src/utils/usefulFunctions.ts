@@ -11,7 +11,7 @@ export const successAlert = (message: string,time:number=1100) => {
             showConfirmButton: false,
             timer:time
         }).then(() => {
-            resolve(true); // Resolve the promise when the alert is closed
+            resolve(true); 
         });
     });
 }
@@ -22,7 +22,7 @@ export const errorAlert = (message: string) => {
             title: "Oops...",
             text: message
         }).then(() => {
-            resolve(true); // Resolve the promise when the alert is closed
+            resolve(true); 
         });
     });
 }
@@ -38,7 +38,7 @@ export const extractIdFromToken=(token:string)=>{
 }
 export const sendEmail = async (emailData:EmailRequest) => {
     try {
-        const response = await axios.post('https://localhost:7191/api/Mail/api/send-email', emailData);
+        const response = await axios.post('https://keepintouch.onrender.com/api/Mail/api/send-email', emailData);
         console.log(response,"**mail");
         return response
         

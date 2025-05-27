@@ -32,7 +32,7 @@ const Update = () => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.put('https://localhost:7191/api/User', formData, {
+            const response = await axios.put('https://keepintouch.onrender.com/api/User', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

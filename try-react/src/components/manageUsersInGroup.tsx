@@ -76,7 +76,7 @@ const ManageUsersInGroup = () => {
       try {
         // Check if user already exists in the system
         try {
-          const response = await axios.get(`https://localhost:7191/api/User/email/${email}`);
+          const response = await axios.get(`https://keepintouch.onrender.com/api/User/email/${email}`);
           tokenForUserToAdd = response.data.token;
         } catch (error: any) {
           if (error.response && error.response.status == 404) {
@@ -92,7 +92,7 @@ const ManageUsersInGroup = () => {
             };
 
             try {
-              const responseRegister = await axios.post('https://localhost:7191/api/Auth/register', loginData);
+              const responseRegister = await axios.post('https://lkeepintouch.onrender.com/api/Auth/register', loginData);
               tokenForUserToAdd = responseRegister.data.token;
               
               const emailData: EmailRequest = {
@@ -136,7 +136,7 @@ const ManageUsersInGroup = () => {
           // Add user to group
           //const response =
            await axios.post(
-            'https://localhost:7191/api/Group/addUser', 
+            'https://keepintouch.onrender.com/api/Group/addUser', 
             {
               groupId: GroupStore.currentGroup.id,
               userToken: tokenForUserToAdd
@@ -164,7 +164,7 @@ const ManageUsersInGroup = () => {
     } else if (action == 'remove') {
       try {
      //   const response = 
-        await axios.delete(`https://localhost:7191/api/User/remove-from-group`, {
+        await axios.delete(`https://keepintouch.onrender.com/api/User/remove-from-group`, {
           params: {
             email: email,
             groupId: GroupStore.currentGroup.id

@@ -49,7 +49,7 @@ class UserStore {
     async getUsersForGroup(id: string) {
          const token = localStorage.getItem('token'); // Retrieve token from local storage
                     try {
-                        const response = await axios.get(`https://localhost:7191/api/User/group/${id}`, {
+                        const response = await axios.get(`https://keepintouch.onrender.com/api/User/group/${id}`, {
                             headers: {
                                 'Authorization': `Bearer ${token}`
                             }

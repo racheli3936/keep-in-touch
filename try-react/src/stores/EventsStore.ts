@@ -13,7 +13,7 @@ class EventsStore {
     async addEvent(data: Partial<MyFile>) {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.post('https://localhost:7191/api/File', data, {
+            const response = await axios.post('https://keepintouch.onrender.com/api/File', data, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -30,7 +30,7 @@ class EventsStore {
     async getEvevntByGroupId() {
         const token = localStorage.getItem('token'); // Retrieve token from local storage
         try {
-            const response = await axios.get(`https://localhost:7191/api/File/group/${GroupStore.currentGroup.id}`, {
+            const response = await axios.get(`https://keepintouch.onrender.com/api/File/group/${GroupStore.currentGroup.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

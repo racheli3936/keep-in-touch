@@ -39,7 +39,7 @@ const Chat = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('https://localhost:7191/api/Chat', {
+      const response = await axios.post('https://keepintouch.onrender.com/api/Chat', {
         Prompt: `המידע הבא לקוח מקבצים של קבוצה' :\n${groupContent}\nענה אך ורק על סמך מידע זה.`,
         Question: currentQuestion,
       }, {

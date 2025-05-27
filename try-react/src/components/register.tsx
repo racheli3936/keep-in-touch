@@ -57,7 +57,7 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
         };
         try {
             await new Promise(resolve => setTimeout(resolve, 800));
-            const response = await axios.post("https://localhost:7191/api/Auth/register", data);
+            const response = await axios.post("https://keepintouch.onrender.com/api/Auth/register", data);
             localStorage.setItem("token", response.data.token);
             const newUser: User = {
                 id: response.data.id,

@@ -12,7 +12,7 @@ class MessageStore {
 
     fetchMessages = async () => {
         try {
-            const response = await axios.get(`https://localhost:7191/api/Massage/${GroupStore.currentGroup.id}/massages`, {
+            const response = await axios.get(`https://keepintouch.onrender.com/api/Massage/${GroupStore.currentGroup.id}/massages`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -33,7 +33,7 @@ class MessageStore {
     };
     addMessage = async (message:Partial<Massage>) => {
         try {
-            const response = await axios.post('https://localhost:7191/api/Massage', message, {
+            const response = await axios.post('https://keepintouch.onrender.com/api/Massage', message, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ class MessageStore {
     };
     deleteMessage = async (messageId: number) => {
         try {
-            await axios.delete(`https://localhost:7191/api/Massage/${GroupStore.currentGroup.id}/${messageId}`, {
+            await axios.delete(`https://keepintouch.onrender.com/api/Massage/${GroupStore.currentGroup.id}/${messageId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },

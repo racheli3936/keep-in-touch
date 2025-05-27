@@ -53,7 +53,7 @@ const Login = ({ setIsConnected, showSnackbar }: { setIsConnected: Function, sho
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      const response = await axios.post('https://localhost:7191/api/Auth/login', loginData);
+      const response = await axios.post('https://keepintouch.onrender.com/api/Auth/login', loginData);
       localStorage.setItem('token', response.data.token);
 
       const userRes = {
