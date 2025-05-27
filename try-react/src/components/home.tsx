@@ -1,0 +1,211 @@
+import { useState } from "react";
+import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
+import "./homeStyle.css";
+
+const Home = () => {
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "יוסי שיתף קובץ חדש: 'מצגת פרויקט סיום'", time: "לפני 5 דקות" },
+    { id: 2, text: "רונית הגיבה להודעה שלך", time: "לפני שעה" },
+    { id: 3, text: "הוזמנת לקבוצה חדשה: 'טיול שנתי 2025'", time: "לפני 3 שעות" }
+  ]);
+
+  const [recentFiles] = useState([
+    { id: 1, name: "מצגת פרויקט סיום.pptx", sharedBy: "יוסי", date: "היום" },
+    { id: 2, name: "תמונות מהטיול.zip", sharedBy: "רונית", date: "אתמול" },
+    { id: 3, name: "סיכום פגישה.docx", sharedBy: "מיכל", date: "17.05.25" }
+  ]);
+
+  const [activeGroups] = useState([
+    { id: 1, name: "קבוצת עבודה", members: 8, unread: 12 },
+    { id: 2, name: "חברים מהלימודים", members: 15, unread: 3 },
+    { id: 3, name: "משפחה", members: 6, unread: 0 }
+  ]);
+
+  // פונקציה עזר כדי להשתמש בהשפעת hover
+  const [hoveredFile, setHoveredFile] = useState(null);
+  const [hoveredGroup, setHoveredGroup] = useState(null);
+
+  return (
+    <div className="container">
+      {/* Main Content */}
+      <main className="main">
+        <div className="main-content">
+          {/* Main Content Column */}
+          <div className="main-column">
+            {/* Welcome Section */}
+            <div className="card">
+              <h2 className="section-title">ברוך הבא, אלכס!</h2>
+              <p className="welcome-text">
+                מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
+              </p>
+              <div className="action-buttons">
+                <button className="action-button upload-button">
+                  {typeof Upload === 'function' ? <Upload className="blue-icon" size={24} /> : "⬆️"}
+                  <span className="upload-button-text">העלאת קובץ</span>
+                </button>
+                <button className="action-button message-button">
+                  {typeof MessageSquare === 'function' ? <MessageSquare className="green-icon" size={24} /> : "💬"}
+                  <span className="message-button-text">הודעה חדשה</span>
+                </button>
+                <button className="action-button users-button">
+                  {typeof Users === 'function' ? <Users className="purple-icon" size={24} /> : "👥"}
+                  <span className="users-button-text">קבוצה חדשה</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Recent Files */}
+            <div className="card">
+              <div className="file-header">
+                <button className="view-all-button">
+                  <span>הכל</span>
+                </button>
+                <h2 className="section-subtitle">קבצים אחרונים</h2>
+              </div>
+              <div className="file-list">
+                {recentFiles.map(file => (
+                  <div 
+                    key={file.id} 
+                    className={`file-item ${hoveredFile === file.id ? 'file-item-hover' : ''}`}
+                    onMouseEnter={() => setHoveredFile(file.id)}
+                    onMouseLeave={() => setHoveredFile(null)}
+                  >
+                    <div className="file-date">
+                      {file.date}
+                    </div>
+                    <div className="file-info">
+                      <div>
+                        <div className="file-name">{file.name}</div>
+                        <div className="file-shared-by">שותף ע"י {file.sharedBy}</div>
+                      </div>
+                      <div className="file-icon">
+                        {typeof FileText === 'function' ? <FileText size={20} /> : "📄"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button className="add-file-button">
+                {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
+                <span>העלאת קובץ חדש</span>
+              </button>
+            </div>
+
+            {/* What's New / Tips */}
+            <div className="whats-new-card">
+              <div className="whats-new-header">
+                <button className="settings-button">
+                  {typeof Settings === 'function' ? <Settings size={18} /> : "⚙️"}
+                </button>
+                <h2 className="whats-new-title">
+                  {typeof AlertCircle === 'function' ? <AlertCircle size={18} className="icon-margin-left" /> : "ℹ️"}
+                  מה חדש במערכת?
+                </h2>
+              </div>
+              <ul className="whats-new-list">
+                <li className="whats-new-item">
+                  <span>כעת ניתן לשתף קבצים עם מספר קבוצות במקביל</span>
+                  <span className="whats-new-dot"></span>
+                </li>
+                <li className="whats-new-item">
+                  <span>תמיכה בתצוגה מקדימה של קבצי Excel ו-PDF</span>
+                  <span className="whats-new-dot"></span>
+                </li>
+                <li className="whats-new-item">
+                  <span>הגדלנו את נפח האחסון ל-10GB לכל משתמש</span>
+                  <span className="whats-new-dot"></span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="sidebar">
+            {/* Search */}
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="חיפוש קבצים, הודעות, אנשים..."
+                className="search-input"
+              />
+              <div className="search-icon">
+                {typeof Search === 'function' ? <Search size={20} /> : "🔍"}
+              </div>
+            </div>
+
+            {/* Notifications */}
+            <div className="card">
+              <h2 className="section-subtitle">התראות אחרונות</h2>
+              <div className="notification-list">
+                {notifications.map(notification => (
+                  <div key={notification.id} className="notification-item">
+                    <p className="notification-text">{notification.text}</p>
+                    <p className="notification-time">{notification.time}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Groups */}
+            <div className="card">
+              <h2 className="section-subtitle">הקבוצות שלי</h2>
+              <div className="groups-list">
+                {activeGroups.map(group => (
+                  <div 
+                    key={group.id} 
+                    className={`group-item ${hoveredGroup === group.id ? 'group-item-hover' : ''}`}
+                    onMouseEnter={() => setHoveredGroup(group.id)}
+                    onMouseLeave={() => setHoveredGroup(null)}
+                  >
+                    <div className="group-info">
+                      {group.unread > 0 && (
+                        <span className="unread-badge">
+                          {group.unread}
+                        </span>
+                      )}
+                      <span className="members-count">{group.members} חברים</span>
+                    </div>
+                    <span className="group-name">{group.name}</span>
+                  </div>
+                ))}
+                <button className="add-group-button">
+                  {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
+                  <span>הוספת קבוצה חדשה</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Storage Status */}
+            <div className="storage-status">
+              <div className="storage-header">
+                <span className="storage-usage">4.2GB / 10GB</span>
+                <h3 className="storage-title">שטח אחסון</h3>
+              </div>
+              <div className="storage-bar">
+                <div className="storage-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          ShareSpace © 2025 | <a href="#" className="footer-link">תנאי שימוש</a> | <a href="#" className="footer-link">פרטיות</a> | <a href="#" className="footer-link">עזרה</a>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+// export default Home;
+// const Home=()=>
+// {
+//     return(
+//         <>
+//         <h1>home</h1>
+//         </>
+//     )
+// }
+ export default Home
