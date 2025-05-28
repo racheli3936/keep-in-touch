@@ -17,6 +17,7 @@ COPY ["Core/Core.csproj", "Core/"]
 COPY ["Data/Data.csproj", "Data/"]
 COPY ["Service/Service.csproj", "Service/"]
 
+
 RUN apt-get update && apt-get install -y libleptonica-dev
 
 RUN dotnet restore "./Api/Api.csproj"
@@ -35,4 +36,5 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 COPY ["Api/tessdata", "./tessdata"]
+
 ENTRYPOINT ["dotnet", "Api.dll"]

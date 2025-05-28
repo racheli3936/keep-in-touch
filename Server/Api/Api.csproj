@@ -37,4 +37,10 @@
     <Folder Include="tessdata\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="..\.dockerignore">
+      <DependentUpon>dockerfile</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>
