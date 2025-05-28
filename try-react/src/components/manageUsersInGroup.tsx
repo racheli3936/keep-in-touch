@@ -92,9 +92,9 @@ const ManageUsersInGroup = () => {
             };
 
             try {
-              const responseRegister = await axios.post('https://lkeepintouch.onrender.com/api/Auth/register', loginData);
-              tokenForUserToAdd = responseRegister.data.token;
               
+              const responseRegister = await axios.post('https://keepintouch.onrender.com/api/Auth/register', loginData);
+              tokenForUserToAdd = responseRegister.data.token;            
               const emailData: EmailRequest = {
                 to: email,
                 subject: 'סיסמא לKeepInTouch',
@@ -134,13 +134,6 @@ const ManageUsersInGroup = () => {
         
         try {
           // Add user to group
-          //const response =
-          console.log("++++++++++++++++++");
-          
-          console.log(GroupStore.currentGroup.id);
-          
-          console.log(tokenForUserToAdd);
-          console.log("++++++++++++++++++");
            await axios.post(
             'https://keepintouch.onrender.com/api/Group/addUser', 
             {
@@ -160,8 +153,6 @@ const ManageUsersInGroup = () => {
             errorAlert('המשתמש כבר קיים בקבוצה');
           } else {
             errorAlert('שגיאה בהוספת המשתמש לקבוצה');
-            console.log(error,"errorrrrrrrrrrrr--");
-            
           }
           console.error('Error adding user to group:', error);
         }
