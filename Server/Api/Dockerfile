@@ -19,6 +19,7 @@ COPY ["Service/Service.csproj", "Service/"]
 
 
 RUN apt-get update && apt-get install -y libleptonica-dev
+ENV LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
 RUN dotnet restore "./Api/Api.csproj"
 COPY . .
