@@ -136,7 +136,7 @@ const ManageUsersInGroup = () => {
           // Add user to group
           //const response =
            await axios.post(
-            'https://keepintouch.onrender.com/api/Group/addUser', 
+            'https://keepintouch.onrender.com/api/Group/addNew', 
             {
               groupId: GroupStore.currentGroup.id,
               userToken: tokenForUserToAdd
