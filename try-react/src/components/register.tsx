@@ -15,6 +15,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CustomTextField from "../styleComponent/customInput";
 import { RegisterLoginButton, FamilyAvatar, RegisterLoginPaper, SubmitButton } from "../styleComponent/loginRegisterButton";
 import { useNavigate } from "react-router-dom";
+import { errorAlert } from "../utils/usefulFunctions";
 
 const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => void; showSnackbar: (message: string) => void; }) => {
     const [pressRegister, setPressRegister] = useState(false);
@@ -56,30 +57,39 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
             password: passwordRef.current?.value,
         };
         try {
-            await new Promise(resolve => setTimeout(resolve, 800));
-            const response = await axios.post("https://keepintouch.onrender.com/api/Auth/register", data);
-            localStorage.setItem("token", response.data.token);
-            const newUser: User = {
-                id: response.data.id,
-                files: [],
-                userGroups: [],
-                name: data.name || "",
-                phone: data.phone || "",
-                email: data.email || "",
-                address: data.address || "",
-                previousFamily: data.previousFamily || "",
-            };
-            setUser(newUser);
-            setPressRegister(false);
-            navigate('/')
-            setIsConnected();
-            showSnackbar("נרשמת בהצלחה!");
-        } catch (error) {
-            console.error("Register failed:", error);
-            setError('ההרשמה נכשלה. אנא בדוק את הפרטים שהזנת ונסה שוב.');
-        } finally {
-            setLoading(false);
+             await axios.get(`https://keepintouch.onrender.com/api/User/email/${emailRef.current?.value}`);
+             setPressRegister(false)
+          errorAlert('מייל זה כבר רשום במערכת')
         }
+        catch (error:any){
+            try {
+
+                await new Promise(resolve => setTimeout(resolve, 800));
+                const response = await axios.post("https://keepintouch.onrender.com/api/Auth/register", data);
+                localStorage.setItem("token", response.data.token);
+                const newUser: User = {
+                    id: response.data.id,
+                    files: [],
+                    userGroups: [],
+                    name: data.name || "",
+                    phone: data.phone || "",
+                    email: data.email || "",
+                    address: data.address || "",
+                    previousFamily: data.previousFamily || "",
+                };
+                setUser(newUser);
+                setPressRegister(false);
+                navigate('/')
+                setIsConnected();
+                showSnackbar("נרשמת בהצלחה!");
+            } catch (error) {
+                console.error("Register failed:", error);
+                setError('ההרשמה נכשלה. אנא בדוק את הפרטים שהזנת ונסה שוב.');
+            } finally {
+                setLoading(false);
+            }
+        }
+
     };
     const animationProps = {
         whileHover: { scale: 1.05 },

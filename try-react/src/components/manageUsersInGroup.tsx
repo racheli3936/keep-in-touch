@@ -14,7 +14,6 @@ import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/Email';
 
 Modal.setAppElement('#root'); 
-
 const ManageUsersInGroup = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [action, setAction] = useState<string | null>(null);
@@ -146,7 +145,7 @@ const ManageUsersInGroup = () => {
               }
             }
           );
-          
+          setModalIsOpen(false)
           await successAlert(`המשתמש ${email} נוסף בהצלחה לקבוצה`);
         } catch (error: any) {
           if (error.response && error.response.status == 400) {
@@ -179,7 +178,6 @@ const ManageUsersInGroup = () => {
         }
       }
     }
-    
     setLoading(false);
     closeModal();
   };
