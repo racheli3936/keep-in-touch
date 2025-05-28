@@ -174,7 +174,7 @@ namespace Api.Controllers
 
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error processing image: {ex.Message}");
+                return StatusCode(500, $"Error processing image: {ex.Message},all error: {ex}");
             }
             finally
             {
