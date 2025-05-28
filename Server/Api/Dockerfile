@@ -16,7 +16,9 @@ COPY ["Api/Api.csproj", "Api/"]
 COPY ["Core/Core.csproj", "Core/"]
 COPY ["Data/Data.csproj", "Data/"]
 COPY ["Service/Service.csproj", "Service/"]
+
 RUN apt-get update && apt-get install -y libleptonica-dev
+
 RUN dotnet restore "./Api/Api.csproj"
 COPY . .
 WORKDIR "/src/Api"
@@ -31,6 +33,6 @@ RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-RUN apt-get update && apt-get install -y libleptonica-dev
+
 COPY ["Api/tessdata", "./tessdata"]
 ENTRYPOINT ["dotnet", "Api.dll"]
