@@ -14,15 +14,16 @@ interface CustomTextFieldProps {
 }
 
 const CustomTextField = forwardRef<HTMLInputElement, CustomTextFieldProps>(
-    ({label, required, type = "text",onChange, value, startAdornment, endAdornment, inputRef, ...props }) => {
+    ({label, required, type = "text",onChange, value, startAdornment, endAdornment, ...props },ref) => {
         return (
             <Box sx={{ mb: 1 }}>
                 <TextField
                     fullWidth
-                    inputRef={inputRef}
+                    inputRef={ref}
                     label={label}
                     variant="outlined"
                     required={required}
+                 
                     type={type}
                     InputProps={{
                         startAdornment: (
