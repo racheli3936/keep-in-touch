@@ -9,6 +9,7 @@ namespace Core.Models
 {
     public enum EUserRole
     {
+        System_administrator,
         Admin,
         User
     }
