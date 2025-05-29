@@ -12,7 +12,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Service;
 using System.Text;
-using Microsoft.AspNetCore.Builder;
 using Amazon.Extensions.NETCore.Setup;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.

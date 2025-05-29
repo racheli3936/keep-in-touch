@@ -10,7 +10,7 @@ namespace Core.IServices
     public interface IUserService
     {
         Task<IEnumerable<User>> GetUsersByGroupIdAsync(int groupId);
-        List<User> GetUsersList();
+        Task<List<User>> GetUsersListAsync();
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
         void AddUser(User user);

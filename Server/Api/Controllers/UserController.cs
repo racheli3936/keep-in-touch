@@ -21,6 +21,17 @@ namespace Api.Controllers
             _authService = authService;
             _tokenService = tokenService;
         }
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        {
+            var users = await _userService.GetUsersListAsync();
+            if (users == null || !users.Any())
+            {
+                return NotFound();
+            }
+            return Ok(users);
+        }
 
         // GET: api/<UsersController>
         [Authorize]

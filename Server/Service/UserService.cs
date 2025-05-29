@@ -24,9 +24,9 @@ namespace Service
             //List<int> usersIds=groupUsers.
             return await _userRepository.GetUsersByGroupIdAsync(groupId);
         }
-        public List<User> GetUsersList()
+        public async Task<List<User>> GetUsersListAsync()
         {
-            return _userRepository.GetAllUsers();
+            return await _userRepository.GetAllUsersAsync();
         }
         public async Task<User> GetUserByIdAsync(int id)
         {

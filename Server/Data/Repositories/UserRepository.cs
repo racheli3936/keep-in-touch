@@ -17,9 +17,9 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public List<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync();
         }
         public async Task<User> GetUserByIdAsync(int id)
         {

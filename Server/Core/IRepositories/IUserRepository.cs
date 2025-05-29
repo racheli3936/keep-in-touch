@@ -10,7 +10,7 @@ namespace Core.IRepositories
     public interface IUserRepository
     {
         Task<IEnumerable<User>> GetUsersByGroupIdAsync(int groupId);
-        List<User> GetAllUsers();
+        Task<List<User>> GetAllUsersAsync();
 
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
