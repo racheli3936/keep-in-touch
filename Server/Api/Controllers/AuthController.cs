@@ -29,8 +29,9 @@ namespace Api.Controllers
             try
             {
                 var token =await _authService.LoginAsync(login);
+                Console.WriteLine(token);
              
-                return Ok(new { Token = token });
+                return Ok(token);
             }
             catch (UnauthorizedAccessException)
             {
