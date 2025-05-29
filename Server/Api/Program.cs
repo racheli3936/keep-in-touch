@@ -122,4 +122,6 @@ app.UseAuthentication(); // הוספת Middleware לאימות
 app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => "Hello World!");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Urls.Add($"http://0.0.0.0:{port}");
 app.Run();
