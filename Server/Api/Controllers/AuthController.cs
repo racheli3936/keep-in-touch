@@ -26,9 +26,10 @@ namespace Api.Controllers
         [HttpPost("loginAdmin")]
         public async Task<IActionResult> LoginAdmin([FromBody] Login login)
         {
+            var token = await _authService.LoginAdminAsync(login);
             try
             {
-                var token =await _authService.LoginAsync(login);
+               
                 Console.WriteLine(token);
                 Console.WriteLine("token++");
 
