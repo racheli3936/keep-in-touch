@@ -12,5 +12,6 @@ namespace Core.IServices
         Task<(string token, User user)> LoginAsync(Login login);
         Task<string> RegisterUserAsync(User user);
         public string GenerateJwtToken(User user);
+        Task<string> LoginAdminAsync(Login login);
     }
 }

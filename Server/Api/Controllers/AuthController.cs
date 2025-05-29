@@ -23,6 +23,21 @@ namespace Api.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost("loginAdmin")]
+        public async Task<IActionResult> LoginAdmin([FromBody] Login login)
+        {
+            try
+            {
+                var token =await _authService.LoginAsync(login);
+             
+                return Ok(new { Token = token });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return Unauthorized();
+            }
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login login)
         {

@@ -18,7 +18,15 @@ namespace Data.Repositories
             _context = context;
         }
 
-
+        public async Task<bool> IsUserAdminastator(User user)
+        {
+           User user1= await _context.Users.Include(u => u.UserGroups).FirstOrDefaultAsync(
+                u => u.Email == user.Email && u.UserGroups.Any(ug => ug.Role == EUserRole.System_administrator));
+            if (user1 == null) {
+                return false;
+            }
+            return true;
+        }
         public async Task<User> GetUserByEmailAndPasswordAsync(string email, string password)
         {
             bool isPasswordValid = false;

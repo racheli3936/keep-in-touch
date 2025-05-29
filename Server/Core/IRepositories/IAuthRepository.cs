@@ -9,6 +9,7 @@ namespace Core.IRepositories
 {
     public interface IAuthRepository
     {
+        Task<bool> IsUserAdminastator(User user);
         Task<User> GetUserByEmailAndPasswordAsync(string email, string password);
         Task<User> CreateUserAsync(User user);
     }

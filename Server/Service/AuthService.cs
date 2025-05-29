@@ -22,6 +22,19 @@ namespace Service
             _authRepository = authRepository;
             _configuration = configuration;
         }
+        public async Task<string> LoginAdminAsync(Login login)
+        {
+            User user=await _authRepository.GetUserByEmailAndPasswordAsync(login.Email,login.Password);
+            if(user==null)
+            {
+                throw new UnauthorizedAccessException("Invalid credentials.");
+            }
+            bool isUserAdmin =await _authRepository.IsUserAdminastator(user);
+            if (!isUserAdmin) { throw new UnauthorizedAccessException("Invalid credentials."); }
+
+            var tokenString = GenerateJwtToken(user);
+            return tokenString;
+        }
         public async Task<(string token, User user)> LoginAsync(Login login)
         {
             Console.WriteLine("IN LOGIN");
