@@ -38,6 +38,11 @@ const Update = () => {
                     'Content-Type': 'application/json'
                 }
             });
+            console.log("updateRES");
+            
+            console.log(response);
+            console.log("updateRES");
+            
             const newUser: User = {
                 id:response.data.id,
                 files: [],
