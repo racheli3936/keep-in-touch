@@ -30,8 +30,9 @@ namespace Api.Controllers
             {
                 var token =await _authService.LoginAsync(login);
                 Console.WriteLine(token);
-             
-                return Ok(token);
+                Console.WriteLine("token++");
+
+                return Ok(new { Token = token });
             }
             catch (UnauthorizedAccessException)
             {
