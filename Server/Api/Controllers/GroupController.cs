@@ -49,7 +49,7 @@ namespace Api.Controllers
             return Ok(groups);
         }
 
-        [HttpGet]
+        [HttpGet("getUserGroup")]
         public async Task<ActionResult<IEnumerable<Group>>> GetAllUsers_Groups()
         {
             try

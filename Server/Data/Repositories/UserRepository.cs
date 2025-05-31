@@ -67,6 +67,8 @@ namespace Data.Repositories
         }
         public async Task UpdateUserAsync(User user)
         {
+            Console.WriteLine("update a user");
+            Console.WriteLine(user.Name);
             _context.Users.Update(user); // Assuming _context is your DbContext
             await _context.SaveChangesAsync(); // Save changes to the database
         }
