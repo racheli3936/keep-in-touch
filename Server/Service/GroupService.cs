@@ -38,7 +38,10 @@ namespace Service
         {
             return await _groupRepository.GetAllAsync();
         }
-
+        public async Task<IEnumerable<GroupUser>> GetAllUser_GroupsAsync()
+        {
+            return await _groupRepository.GetAllUser_GroupsAsync();
+        }
         public async Task<Group> GetGroupByIdAsync(int id)
         {
             return await _groupRepository.GetByIdAsync(id);

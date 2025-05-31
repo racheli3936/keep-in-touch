@@ -18,6 +18,7 @@ namespace Data.Repositories
             _context = context;
         }
 
+
         //public async Task<IEnumerable<Group>> GetGroupsByUserIdAsync(int userId)
         //{
         //    var user = await _context.Users
@@ -50,11 +51,19 @@ namespace Data.Repositories
                 await _context.SaveChangesAsync();
             }
         }
+
         public async Task<IEnumerable<Group>> GetAllAsync()
         {
             return await _context.Groups.ToListAsync();
         }
 
+        public async Task<IEnumerable<GroupUser>> GetAllUser_GroupsAsync()
+        {
+            return await _context.Groups
+           .Include(g => g.GroupMembers)
+           .SelectMany(g => g.GroupMembers)
+           .ToListAsync();
+        }
         public async Task<Group> GetByIdAsync(int id)
         {
             return await _context.Groups.Include(g => g.GroupMembers).FirstAsync(g => g.Id == id);

@@ -10,6 +10,7 @@ namespace Core.IServices
     public interface IGroupService
     {
         Task<IEnumerable<Group>> GetGroupsByUserIdAsync(int userId);
+        Task<IEnumerable<GroupUser>> GetAllUser_GroupsAsync();
         Task<IEnumerable<Group>> GetAllGroupsAsync();
         Task<Group> GetGroupByIdAsync(int id);
         Task AddGroupAsync(Group group);

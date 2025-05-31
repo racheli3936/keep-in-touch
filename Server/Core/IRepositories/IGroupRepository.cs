@@ -11,6 +11,7 @@ namespace Core.IRepositories
     {
         Task AddFileToGroup(MyFile file);
         Task<List<Group>> GetGroupsByIdsAsync(List<int> groupIds);
+        Task<IEnumerable<GroupUser>> GetAllUser_GroupsAsync();
         Task AddUserForGroupAsync(GroupUser userForGroup, int groupId);
         Task<IEnumerable<Group>> GetAllAsync();
         Task<Group> GetByIdAsync(int id);

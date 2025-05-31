@@ -30,7 +30,7 @@ namespace Api.Controllers
         [HttpGet("user/groups")]
         public async Task<ActionResult<IEnumerable<GroupDto>>> GetGroupsByUser()
         {
-            await Console.Out.WriteLineAsync("in");
+           
             string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             int userId = _tokenService.ExtractUserIdFromToken(token);
             Console.WriteLine(userId + "  userid");
@@ -41,14 +41,27 @@ namespace Api.Controllers
             return Ok(groupsDto);
         }
 
-        // GET: api/groups
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Group>>> GetAllGroups()
-        //{
-        //    var groups = await _groupService.GetAllGroupsAsync();
-        //    return Ok(groups);
-        //}
+       // GET: api/groups
+       [HttpGet]
+        public async Task<ActionResult<IEnumerable<Group>>> GetAllGroups()
+        {
+            var groups = await _groupService.GetAllGroupsAsync();
+            return Ok(groups);
+        }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Group>>> GetAllUsers_Groups()
+        {
+            try
+            {
+                var user_group = await _groupService.GetAllUser_GroupsAsync();
+                return Ok(user_group);
+            }
+            catch (Exception ex) {
+                return BadRequest("there was an error in get userGroups");
+            }
+           
+        }
         //// GET: api/groups/{id}
         //[HttpGet("{id}")]
         //public async Task<ActionResult<Group>> GetGroupById(int id)
