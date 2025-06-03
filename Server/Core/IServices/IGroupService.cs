@@ -16,6 +16,6 @@ namespace Core.IServices
         Task AddGroupAsync(Group group);
         Task AddUserToGroupAsync(int groupId, int userId);
         Task UpdateGroupAsync(Group group);
-        Task DeleteGroupAsync(int id);
+        Task DeleteGroupAsync(int groupId);
     }
 }

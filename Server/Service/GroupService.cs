@@ -14,10 +14,12 @@ namespace Service
 
         private readonly IGroupRepository _groupRepository;
         private readonly IUserRepository _userRepository;
-        public GroupService(IGroupRepository GroupRepository, IUserRepository userRepository)
+        private readonly IFileRepository _fileRepository;
+        public GroupService(IGroupRepository GroupRepository, IUserRepository userRepository,IFileRepository fileRepository)
         {
             _groupRepository = GroupRepository;
             _userRepository = userRepository;
+            _fileRepository = fileRepository;
         }
         public async Task<IEnumerable<Group>> GetGroupsByUserIdAsync(int userId)
         {
@@ -87,10 +89,15 @@ namespace Service
         {
             await _groupRepository.UpdateAsync(group);
         }
-
-        public async Task DeleteGroupAsync(int id)
+        //למחוק את כל הקבצים של הקבוצה
+        //למחוק את ההודעות
+        //למחוק את המשתמשים מהקבוצה
+        //למחוק את הקבוצה בעצמה
+        public async Task DeleteGroupAsync(int groupId)
         {
-            await _groupRepository.DeleteAsync(id);
+            //Group group =await _groupRepository.GetByIdAsync(groupId);
+            
+            await _groupRepository.DeleteGroupAsync(groupId);
         }
     }
 }

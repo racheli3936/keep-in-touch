@@ -126,5 +126,17 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //למחוק את כל הקבצים של הקבוצה
+        //למחוק את ההודעות
+        //למחוק את המשתמשים מהקבוצה
+        //למחוק את הקבוצה בעצמה
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteGroup(int id)
+        {
+            await _groupService.DeleteGroupAsync(id);
+            return NoContent(); // מחזיר 204 No Content
+        }
+
+
     }
 }

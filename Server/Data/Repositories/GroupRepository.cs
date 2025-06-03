@@ -66,7 +66,7 @@ namespace Data.Repositories
         }
         public async Task<Group> GetByIdAsync(int id)
         {
-            return await _context.Groups.Include(g => g.GroupMembers).FirstAsync(g => g.Id == id);
+            return await _context.Groups.Include(g => g.GroupMembers).Include(g=>g.Events).Include(g=>g.Massages).FirstAsync(g => g.Id == id);
         }
 
         public async Task<int> AddAsync(Group group)
@@ -93,11 +93,34 @@ namespace Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteGroupAsync(int groupId)
         {
-            var group = await GetByIdAsync(id);
+            Group group = await GetByIdAsync(groupId);
+            
             if (group != null)
             {
+                // מחק את כל הקבצים, המשתמשים וההודעות אם יש צורך
+                _context.Files.RemoveRange(group.Events);
+                if (group.Massages != null && group.Massages.Any())
+                {
+                    foreach (var message in group.Massages.ToList())
+                    {
+                        // מחק את ההודעה (אם יש לך שיטה למחוק הודעות)
+                        _context.Entry(message).State = EntityState.Deleted;
+                    }
+                }
+                if (group.GroupMembers != null && group.GroupMembers.Any())
+                {
+                    foreach (var groupUser in group.GroupMembers.ToList())
+                    {
+                        // מחק את ההודעה (אם יש לך שיטה למחוק הודעות)
+                        _context.Entry(groupUser).State = EntityState.Deleted;
+                    }
+                }
+
+                //_context.Users.RemoveRange(group.Users);
+
+                // מחק את הקבוצה עצמה
                 _context.Groups.Remove(group);
                 await _context.SaveChangesAsync();
             }

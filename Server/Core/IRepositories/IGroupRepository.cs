@@ -17,6 +17,6 @@ namespace Core.IRepositories
         Task<Group> GetByIdAsync(int id);
         Task<int> AddAsync(Group group);
         Task UpdateAsync(Group group);
-        Task DeleteAsync(int id);
+        Task DeleteGroupAsync(int groupId);
     }
 }
