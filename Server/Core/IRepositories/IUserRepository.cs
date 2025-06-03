@@ -15,7 +15,7 @@ namespace Core.IRepositories
         Task<User> GetUserByIdAsync(int id);
         Task<User> GetUserByEmailAsync(string email);
         Task AddGroupForUserAsync(GroupUser groupForUser, int userId);
-        void AddUser(User user);
+        Task AddUser(User user);
         void UpdateUser(string token, User user);
         Task UpdateUserAsync(User user);
         void DeleteUser(int id);
