@@ -39,9 +39,16 @@ namespace Data.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
-        public void AddUser(User user)
+        public async Task AddUser(User user)
         {
-            _context.Users.Add(user);
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex);
+            }
         }
         public void UpdateUser(string token, User newUser)
         {
