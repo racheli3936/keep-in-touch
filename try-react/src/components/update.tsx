@@ -142,7 +142,7 @@ const Update = () => {
        
         const token = localStorage.getItem('token'); // או איך שאתה שומר את הטוקן
         try {
-       
+                                          
             const response = await axios.put('https://keepintouch.onrender.com/api/User', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
