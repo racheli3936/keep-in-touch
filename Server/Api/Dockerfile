@@ -42,6 +42,7 @@ WORKDIR /app
 # נעתיק את הקוד המפורסם מהשלב הקודם
 COPY --from=publish /app/publish .
 
+
 # נעתיק גם את תיקיית tessdata אם נדרשת
 COPY ["Api/tessdata", "./tessdata"]
 RUN chmod -R 755 ./tessdata
