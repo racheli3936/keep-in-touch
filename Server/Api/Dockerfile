@@ -1,9 +1,6 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
+# שלב בסיסי עם כל הספריות הדרושות לריצה
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
-# התקן את הספריות הנדרשות ב-base stage
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-heb \
@@ -11,28 +8,18 @@ RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# הגדר את משתנה הסביבה לספריות
+# נוודא שהספריות ה־native זמינות
 ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/local/lib:${LD_LIBRARY_PATH}"
-
-# ודא שהספריות זמינות
 RUN ldconfig
 
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# This stage is used to build the service project
+# שלב הבנייה
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-
-# התקן ספריות גם לשלב הבילד
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-heb \
-    libtesseract-dev \
-    libleptonica-dev \
-    && rm -rf /var/lib/apt/lists/*
 
 COPY ["Api/Api.csproj", "Api/"]
 COPY ["Core/Core.csproj", "Core/"]
@@ -43,28 +30,30 @@ COPY . .
 WORKDIR "/src/Api"
 RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
+# שלב הפרסום
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
+# שלב הריצה הסופי
 FROM base AS final
 WORKDIR /app
 
-# העתק את הקבצים מהפרסום
+# נעתיק את הקוד המפורסם מהשלב הקודם
 COPY --from=publish /app/publish .
 
-# העתק את tessdata והגדר הרשאות נכונות
+# נעתיק גם את תיקיית tessdata אם נדרשת
 COPY ["Api/tessdata", "./tessdata"]
 RUN chmod -R 755 ./tessdata
 
-# בדוק שהכל תקין
+# בדיקת תקינות
 RUN tesseract --version && \
     tesseract --list-langs && \
     ls -la /usr/lib/x86_64-linux-gnu/ | grep lept
 
-# רק עכשיו עבור למשתמש שאינו root
-USER $APP_UID
+# להסיר את השורה הזו - APP_UID לא מוגדר ולא נחוץ, וזה עלול לגרום לשגיאות גישה
+# USER $APP_UID
+# בדיקת תקינות ספריית Leptonica
+
 
 ENTRYPOINT ["dotnet", "Api.dll"]
