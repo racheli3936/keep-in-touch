@@ -6,14 +6,14 @@ import { observer } from "mobx-react-lite";
 import MassageStore from "../stores/MassageStore";
 import EventsStore from "../stores/EventsStore";
 import GroupStore from "../stores/GroupStore";
-import UserStore from "../stores/UserStore";
+// import UserStore from "../stores/UserStore";
 
  const Home = observer(() => {
  
  const [notifications, setNotifications] = useState<Massage[]>([]);
 
  const [recentFiles,setRecentFiles] = useState<MyFile[]>([]);
- const [groupMembers,setGroupMembers] = useState<[]>([]);
+//  const [groupMembers,setGroupMembers] = useState<[]>([]);
 
   const [activeGroups,setActiveGroups] = useState<Group[]>([]);
   const context = useContext(UserContext);
