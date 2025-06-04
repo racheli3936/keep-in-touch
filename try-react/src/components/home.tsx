@@ -195,11 +195,10 @@ import GroupStore from "../stores/GroupStore";
             {/* Storage Status */}
             <div className="storage-status">
               <div className="storage-header">
-                <span className="storage-usage">{recentFiles.reduce((accumulator, file) => {
-                  console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
-                  
-    return accumulator + file.fileSize;
-}, 0)}</span>
+                <span className="storage-usage"> {(recentFiles.reduce((accumulator, file) => {
+        console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
+        return accumulator + file.fileSize;
+    }, 0) / (1024 * 1024)).toFixed(2)} MB</span>
                 <h3 className="storage-title">שטח אחסון</h3>
               </div>
               <div className="storage-bar">
