@@ -18,7 +18,16 @@ const Home = observer(() => {
   const [hoveredFile, setHoveredFile] = useState<number | null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
   const navigate=useNavigate();
+    const [storageUsage, setStorageUsage] = useState<number>(0);
 
+   useEffect(() => {
+    const totalSize = recentFiles.reduce((accumulator, file) => {
+      console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
+      return accumulator + file.fileSize;
+    }, 0) / (1024 * 1024);
+    
+    setStorageUsage(totalSize);
+  }, [recentFiles]);
   useEffect(() => {
     const loadNotifications = async () => {
       await MassageStore.fetchMessages();
@@ -203,10 +212,7 @@ const Home = observer(() => {
             {/* Storage Status */}
             <div className="storage-status">
               <div className="storage-header">
-                <span className="storage-usage"> {(recentFiles.reduce((accumulator, file) => {
-                  console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
-                  return accumulator + file.fileSize;
-                }, 0) / (1024 * 1024)).toFixed(2)} MB</span>
+                <span className="storage-usage"> {storageUsage.toFixed(2)} MB</span>
                 <h3 className="storage-title">שטח אחסון</h3>
               </div>
               <div className="storage-bar">
