@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
+import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus} from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
@@ -196,6 +196,8 @@ import GroupStore from "../stores/GroupStore";
             <div className="storage-status">
               <div className="storage-header">
                 <span className="storage-usage">{recentFiles.reduce((accumulator, file) => {
+                  console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
+                  
     return accumulator + file.fileSize;
 }, 0)}</span>
                 <h3 className="storage-title">שטח אחסון</h3>
