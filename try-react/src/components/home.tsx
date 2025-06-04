@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus} from "lucide-react";
+import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
@@ -9,22 +9,22 @@ import GroupStore from "../stores/GroupStore";
 import UserStore from "../stores/UserStore";
 // import UserStore from "../stores/UserStore";
 
- const Home = observer(() => {
- 
- const [notifications, setNotifications] = useState<Massage[]>([]);
+const Home = observer(() => {
 
- const [recentFiles,setRecentFiles] = useState<MyFile[]>([]);
-//  const [groupMembers,setGroupMembers] = useState<[]>([]);
+  const [notifications, setNotifications] = useState<Massage[]>([]);
 
-  const [activeGroups,setActiveGroups] = useState<Group[]>([]);
+  const [recentFiles, setRecentFiles] = useState<MyFile[]>([]);
+  //  const [groupMembers,setGroupMembers] = useState<[]>([]);
+
+  const [activeGroups, setActiveGroups] = useState<Group[]>([]);
   const context = useContext(UserContext);
   // פונקציה עזר כדי להשתמש בהשפעת hover
-  const [hoveredFile, setHoveredFile] = useState<number|null>(null);
-  const [hoveredGroup, setHoveredGroup] = useState<number|null>(null);
+  const [hoveredFile, setHoveredFile] = useState<number | null>(null);
+  const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
 
   useEffect(() => {
     const loadNotifications = async () => {
-     await MassageStore.fetchMessages();
+      await MassageStore.fetchMessages();
       setNotifications(MassageStore.groupMessages);
     };
 
@@ -34,16 +34,20 @@ import UserStore from "../stores/UserStore";
     };
 
     const loadActiveGroups = async () => {
-     await GroupStore.getAllGroups();
+      await GroupStore.getAllGroups();
       setActiveGroups(GroupStore.Groupslist);
     };
- 
+
     loadNotifications();
     loadRecentFiles();
     loadActiveGroups();
-  }, []); 
- const getUserName = (userId: number) => {
-return UserStore.Userslist.find(user => user.id === userId)?.name || userId; 
+  }, []);
+  const getUserName = (userId: number) => {
+    return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
+  }
+  const getCountMembers = async (groupId: string) => {
+ await UserStore.getUsersForGroup(groupId);
+ return UserStore.Userslist.length;
   }
   return (
     <div className="container">
@@ -84,8 +88,8 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
               </div>
               <div className="file-list">
                 {recentFiles.slice(-3).map(file => (
-                  <div 
-                    key={file.id} 
+                  <div
+                    key={file.id}
                     className={`file-item ${hoveredFile === file.id ? 'file-item-hover' : ''}`}
                     onMouseEnter={() => setHoveredFile(file.id)}
                     onMouseLeave={() => setHoveredFile(null)}
@@ -171,8 +175,8 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
               <h2 className="section-subtitle">הקבוצות שלי</h2>
               <div className="groups-list">
                 {activeGroups.map(group => (
-                  <div 
-                    key={group.id} 
+                  <div
+                    key={group.id}
                     className={`group-item ${hoveredGroup == group.id ? 'group-item-hover' : ''}`}
                     onMouseEnter={() => setHoveredGroup(group.id)}
                     onMouseLeave={() => setHoveredGroup(null)}
@@ -183,8 +187,8 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
                           {group.unread}
                         </span>
                       )} */}
-                     
-                      <span className="members-count">  {group.groupMembers?.length || 0}  חברים</span>
+
+                      <span className="members-count">  {getCountMembers(group.id.toString())}  חברים</span>
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
@@ -200,9 +204,9 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
             <div className="storage-status">
               <div className="storage-header">
                 <span className="storage-usage"> {(recentFiles.reduce((accumulator, file) => {
-        console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
-        return accumulator + file.fileSize;
-    }, 0) / (1024 * 1024)).toFixed(2)} MB</span>
+                  console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
+                  return accumulator + file.fileSize;
+                }, 0) / (1024 * 1024)).toFixed(2)} MB</span>
                 <h3 className="storage-title">שטח אחסון</h3>
               </div>
               <div className="storage-bar">
@@ -223,4 +227,4 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
   );
 });
 
- export default Home
+export default Home
