@@ -195,7 +195,9 @@ import UserStore from "../stores/UserStore";
             {/* Storage Status */}
             <div className="storage-status">
               <div className="storage-header">
-                <span className="storage-usage">4.2GB / 10GB</span>
+                <span className="storage-usage">{recentFiles.reduce((accumulator, file) => {
+    return accumulator + file.fileSize;
+}, 0)}</span>
                 <h3 className="storage-title">שטח אחסון</h3>
               </div>
               <div className="storage-bar">
