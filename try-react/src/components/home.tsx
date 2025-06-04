@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite";
 import MassageStore from "../stores/MassageStore";
 import EventsStore from "../stores/EventsStore";
 import GroupStore from "../stores/GroupStore";
+import UserStore from "../stores/UserStore";
 // import UserStore from "../stores/UserStore";
 
  const Home = observer(() => {
@@ -41,6 +42,9 @@ import GroupStore from "../stores/GroupStore";
     loadRecentFiles();
     loadActiveGroups();
   }, []); 
+ const getUserName = (userId: number) => {
+return UserStore.Userslist.find(user => user.id === userId)?.name || userId; 
+  }
   return (
     <div className="container">
       {/* Main Content */}
@@ -92,7 +96,7 @@ import GroupStore from "../stores/GroupStore";
                     <div className="file-info">
                       <div>
                         <div className="file-name">{file.fileName}</div>
-                        <div className="file-shared-by">שותף ע"י {file.userId}</div>
+                        <div className="file-shared-by">שותף ע"י {getUserName(file.userId)}</div>
                       </div>
                       <div className="file-icon">
                         {typeof FileText === 'function' ? <FileText size={20} /> : "📄"}
