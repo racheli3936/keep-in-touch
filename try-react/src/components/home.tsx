@@ -6,29 +6,15 @@ import { observer } from "mobx-react-lite";
 import MassageStore from "../stores/MassageStore";
 import EventsStore from "../stores/EventsStore";
 import GroupStore from "../stores/GroupStore";
+import UserStore from "../stores/UserStore";
 
  const Home = observer(() => {
-  // const [notifications, 
-  //  // setNotifications
-  // ] = useState([
-  //   { id: 1, text: "יוסי שיתף קובץ חדש: 'מצגת פרויקט סיום'", time: "לפני 5 דקות" },
-  //   { id: 2, text: "רונית הגיבה להודעה שלך", time: "לפני שעה" },
-  //   { id: 3, text: "הוזמנת לקבוצה חדשה: 'טיול שנתי 2025'", time: "לפני 3 שעות" }
-  // ]);
+ 
  const [notifications, setNotifications] = useState<Massage[]>([]);
 
-  // const [recentFiles] = useState([
-  //   { id: 1, name: "מצגת פרויקט סיום.pptx", sharedBy: "יוסי", date: "היום" },
-  //   { id: 2, name: "תמונות מהטיול.zip", sharedBy: "רונית", date: "אתמול" },
-  //   { id: 3, name: "סיכום פגישה.docx", sharedBy: "מיכל", date: "17.05.25" }
-  // ]);
  const [recentFiles,setRecentFiles] = useState<MyFile[]>([]);
-  // const [activeGroups] = useState([
-  //   { id: 1, name: "קבוצת עבודה", members: 8, unread: 12 },
-  //   { id: 2, name: "חברים מהלימודים", members: 15, unread: 3 },
-  //   { id: 3, name: "משפחה", members: 6, unread: 0 }
-  // ]);
-  
+ const [groupMembers,setGroupMembers] = useState<[]>([]);
+
   const [activeGroups,setActiveGroups] = useState<Group[]>([]);
   const context = useContext(UserContext);
   // פונקציה עזר כדי להשתמש בהשפעת hover
@@ -50,7 +36,7 @@ import GroupStore from "../stores/GroupStore";
      await GroupStore.getAllGroups();
       setActiveGroups(GroupStore.Groupslist);
     };
-
+ 
     loadNotifications();
     loadRecentFiles();
     loadActiveGroups();
@@ -183,7 +169,7 @@ import GroupStore from "../stores/GroupStore";
                 {activeGroups.map(group => (
                   <div 
                     key={group.id} 
-                    className={`group-item ${hoveredGroup === group.id ? 'group-item-hover' : ''}`}
+                    className={`group-item ${hoveredGroup == group.id ? 'group-item-hover' : ''}`}
                     onMouseEnter={() => setHoveredGroup(group.id)}
                     onMouseLeave={() => setHoveredGroup(null)}
                   >
@@ -193,7 +179,8 @@ import GroupStore from "../stores/GroupStore";
                           {group.unread}
                         </span>
                       )} */}
-                      {/* <span className="members-count">{group.groupMembers.length} חברים</span> */}
+                     
+                      <span className="members-count">  {group.groupMembers?.length || 0}  חברים</span>
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
