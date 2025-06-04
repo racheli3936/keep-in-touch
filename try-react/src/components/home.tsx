@@ -46,6 +46,9 @@ const Home = observer(() => {
  await UserStore.getUsersForGroup(groupId);
  return UserStore.Userslist.length;
   }
+  const navigateDashboard = () => {
+    navigate("/dashboard");
+  }
   return (
     <div className="container">
       {/* Main Content */}
@@ -106,7 +109,7 @@ const Home = observer(() => {
                   </div>
                 ))}
               </div>
-              <button className="add-file-button">
+              <button className="add-file-button" onClick={navigateDashboard}>
                 {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
                 <span>העלאת קובץ חדש</span>
               </button>
@@ -190,7 +193,7 @@ const Home = observer(() => {
                     <span className="group-name">{group.name}</span>
                   </div>
                 ))}
-                <button className="add-group-button" onClick={()=>{navigate("/dashboard")}}>
+                <button className="add-group-button" onClick={navigateDashboard}>
                   {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
                   <span>הוספת קבוצה חדשה</span>
                 </button>
