@@ -190,7 +190,7 @@ const Home = observer(() => {
                     <span className="group-name">{group.name}</span>
                   </div>
                 ))}
-                <button className="add-group-button" onClick={()=>{navigate("/dashboard/openNewGroup")}}>
+                <button className="add-group-button" onClick={()=>{navigate("/dashboard")}}>
                   {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
                   <span>הוספת קבוצה חדשה</span>
                 </button>
