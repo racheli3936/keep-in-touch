@@ -83,7 +83,7 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
                 <h2 className="section-subtitle">קבצים אחרונים</h2>
               </div>
               <div className="file-list">
-                {recentFiles.map(file => (
+                {recentFiles.slice(-3).map(file => (
                   <div 
                     key={file.id} 
                     className={`file-item ${hoveredFile === file.id ? 'file-item-hover' : ''}`}
@@ -157,7 +157,7 @@ return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
             <div className="card">
               <h2 className="section-subtitle">התראות אחרונות</h2>
               <div className="notification-list">
-                {notifications.map(notification => (
+                {notifications.slice(-4).map(notification => (
                   <div key={notification.id} className="notification-item">
                     <p className="notification-text">{notification.content}</p>
                     <p className="notification-time">{notification.createdDate.toLocaleString()}</p>
