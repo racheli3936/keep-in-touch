@@ -7,20 +7,17 @@ import MassageStore from "../stores/MassageStore";
 import EventsStore from "../stores/EventsStore";
 import GroupStore from "../stores/GroupStore";
 import UserStore from "../stores/UserStore";
-// import UserStore from "../stores/UserStore";
+import { useNavigate } from "react-router-dom";
 
 const Home = observer(() => {
 
   const [notifications, setNotifications] = useState<Massage[]>([]);
-
   const [recentFiles, setRecentFiles] = useState<MyFile[]>([]);
-  //  const [groupMembers,setGroupMembers] = useState<[]>([]);
-
   const [activeGroups, setActiveGroups] = useState<Group[]>([]);
   const context = useContext(UserContext);
-  // פונקציה עזר כדי להשתמש בהשפעת hover
   const [hoveredFile, setHoveredFile] = useState<number | null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
+  const navigate=useNavigate();
 
   useEffect(() => {
     const loadNotifications = async () => {
@@ -132,7 +129,7 @@ const Home = observer(() => {
                   <span className="whats-new-dot"></span>
                 </li>
                 <li className="whats-new-item">
-                  <span>תמיכה בתצוגה מקדימה של קבצי Excel ו-PDF</span>
+                  <span>תמיכה בתצוגה מקדימה של קבצי Word ו-PDF</span>
                   <span className="whats-new-dot"></span>
                 </li>
                 <li className="whats-new-item">
@@ -193,7 +190,7 @@ const Home = observer(() => {
                     <span className="group-name">{group.name}</span>
                   </div>
                 ))}
-                <button className="add-group-button">
+                <button className="add-group-button" onClick={()=>{navigate("/dashboard/openNewGroup")}}>
                   {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
                   <span>הוספת קבוצה חדשה</span>
                 </button>
