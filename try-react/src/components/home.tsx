@@ -193,7 +193,7 @@ import GroupStore from "../stores/GroupStore";
                           {group.unread}
                         </span>
                       )} */}
-                      <span className="members-count">{group.groupMembers.length.toString()} חברים</span>
+                      {/* <span className="members-count">{group.groupMembers.length} חברים</span> */}
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
