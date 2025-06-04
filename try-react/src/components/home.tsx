@@ -1,32 +1,60 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
 import "./homeStyle.css";
+import { Group, Massage, MyFile, UserContext } from "../types/types";
+import { observer } from "mobx-react-lite";
+import MassageStore from "../stores/MassageStore";
+import EventsStore from "../stores/EventsStore";
+import GroupStore from "../stores/GroupStore";
 
-const Home = () => {
-  const [notifications, 
-   // setNotifications
-  ] = useState([
-    { id: 1, text: "יוסי שיתף קובץ חדש: 'מצגת פרויקט סיום'", time: "לפני 5 דקות" },
-    { id: 2, text: "רונית הגיבה להודעה שלך", time: "לפני שעה" },
-    { id: 3, text: "הוזמנת לקבוצה חדשה: 'טיול שנתי 2025'", time: "לפני 3 שעות" }
-  ]);
+ const Home = observer(() => {
+  // const [notifications, 
+  //  // setNotifications
+  // ] = useState([
+  //   { id: 1, text: "יוסי שיתף קובץ חדש: 'מצגת פרויקט סיום'", time: "לפני 5 דקות" },
+  //   { id: 2, text: "רונית הגיבה להודעה שלך", time: "לפני שעה" },
+  //   { id: 3, text: "הוזמנת לקבוצה חדשה: 'טיול שנתי 2025'", time: "לפני 3 שעות" }
+  // ]);
+ const [notifications, setNotifications] = useState<Massage[]>([]);
 
-  const [recentFiles] = useState([
-    { id: 1, name: "מצגת פרויקט סיום.pptx", sharedBy: "יוסי", date: "היום" },
-    { id: 2, name: "תמונות מהטיול.zip", sharedBy: "רונית", date: "אתמול" },
-    { id: 3, name: "סיכום פגישה.docx", sharedBy: "מיכל", date: "17.05.25" }
-  ]);
-
-  const [activeGroups] = useState([
-    { id: 1, name: "קבוצת עבודה", members: 8, unread: 12 },
-    { id: 2, name: "חברים מהלימודים", members: 15, unread: 3 },
-    { id: 3, name: "משפחה", members: 6, unread: 0 }
-  ]);
-
+  // const [recentFiles] = useState([
+  //   { id: 1, name: "מצגת פרויקט סיום.pptx", sharedBy: "יוסי", date: "היום" },
+  //   { id: 2, name: "תמונות מהטיול.zip", sharedBy: "רונית", date: "אתמול" },
+  //   { id: 3, name: "סיכום פגישה.docx", sharedBy: "מיכל", date: "17.05.25" }
+  // ]);
+ const [recentFiles,setRecentFiles] = useState<MyFile[]>([]);
+  // const [activeGroups] = useState([
+  //   { id: 1, name: "קבוצת עבודה", members: 8, unread: 12 },
+  //   { id: 2, name: "חברים מהלימודים", members: 15, unread: 3 },
+  //   { id: 3, name: "משפחה", members: 6, unread: 0 }
+  // ]);
+  
+  const [activeGroups,setActiveGroups] = useState<Group[]>([]);
+  const context = useContext(UserContext);
   // פונקציה עזר כדי להשתמש בהשפעת hover
   const [hoveredFile, setHoveredFile] = useState<number|null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number|null>(null);
 
+  useEffect(() => {
+    const loadNotifications = async () => {
+     await MassageStore.fetchMessages();
+      setNotifications(MassageStore.groupMessages);
+    };
+
+    const loadRecentFiles = async () => {
+      await EventsStore.getEvevntByGroupId();
+      setRecentFiles(EventsStore.Eventlist);
+    };
+
+    const loadActiveGroups = async () => {
+     await GroupStore.getAllGroups();
+      setActiveGroups(GroupStore.Groupslist);
+    };
+
+    loadNotifications();
+    loadRecentFiles();
+    loadActiveGroups();
+  }, []); 
   return (
     <div className="container">
       {/* Main Content */}
@@ -36,7 +64,7 @@ const Home = () => {
           <div className="main-column">
             {/* Welcome Section */}
             <div className="card">
-              <h2 className="section-title">ברוך הבא, אלכס!</h2>
+              <h2 className="section-title">ברוך הבא, {context.user?.name}!</h2>
               <p className="welcome-text">
                 מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
               </p>
@@ -73,12 +101,12 @@ const Home = () => {
                     onMouseLeave={() => setHoveredFile(null)}
                   >
                     <div className="file-date">
-                      {file.date}
+                      {file.category}
                     </div>
                     <div className="file-info">
                       <div>
-                        <div className="file-name">{file.name}</div>
-                        <div className="file-shared-by">שותף ע"י {file.sharedBy}</div>
+                        <div className="file-name">{file.fileName}</div>
+                        <div className="file-shared-by">שותף ע"י {file.userId}</div>
                       </div>
                       <div className="file-icon">
                         {typeof FileText === 'function' ? <FileText size={20} /> : "📄"}
@@ -141,8 +169,8 @@ const Home = () => {
               <div className="notification-list">
                 {notifications.map(notification => (
                   <div key={notification.id} className="notification-item">
-                    <p className="notification-text">{notification.text}</p>
-                    <p className="notification-time">{notification.time}</p>
+                    <p className="notification-text">{notification.content}</p>
+                    <p className="notification-time">{notification.createdDate.toLocaleString()}</p>
                   </div>
                 ))}
               </div>
@@ -160,12 +188,12 @@ const Home = () => {
                     onMouseLeave={() => setHoveredGroup(null)}
                   >
                     <div className="group-info">
-                      {group.unread > 0 && (
+                      {/* {group.unread > 0 && (
                         <span className="unread-badge">
                           {group.unread}
                         </span>
-                      )}
-                      <span className="members-count">{group.members} חברים</span>
+                      )} */}
+                      <span className="members-count">{group.groupMembers.length} חברים</span>
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
@@ -199,15 +227,6 @@ const Home = () => {
       </footer>
     </div>
   );
-};
+});
 
-// export default Home;
-// const Home=()=>
-// {
-//     return(
-//         <>
-//         <h1>home</h1>
-//         </>
-//     )
-// }
  export default Home
