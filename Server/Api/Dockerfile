@@ -38,7 +38,7 @@ RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5.0.4 /usr/lib/libleptonica-1.82.0.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5 /usr/lib/libleptonica-1.82.0.so
 
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5/tessdata
 ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
