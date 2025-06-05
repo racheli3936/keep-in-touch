@@ -2,6 +2,18 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+
+# התקנת התלויות של Tesseract OCR
+USER root
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-heb \
+    libleptonica-dev \
+    libtesseract-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# חזרה למשתמש המקורי
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -17,10 +29,6 @@ COPY ["Data/Data.csproj", "Data/"]
 COPY ["Service/Service.csproj", "Service/"]
 RUN dotnet restore "./Api/Api.csproj"
 COPY . .
-
-# Install Leptonica dependencies
-RUN apt-get update && apt-get install -y libleptonica-dev
-
 WORKDIR "/src/Api"
 RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
@@ -33,4 +41,9 @@ RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# הגדרת משתני סביבה לTesseract
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
 ENTRYPOINT ["dotnet", "Api.dll"]
