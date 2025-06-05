@@ -1,75 +1,97 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-# This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+# Base image
+FROM node:18-alpine as base
 
-# התקנת Tesseract ודיבוג
-USER root
-RUN apt-get update && apt-get install -y \
+# Install system dependencies including Tesseract and Leptonica
+RUN apk update && \
+    apk add --no-cache \
     tesseract-ocr \
-    tesseract-ocr-eng \
-    tesseract-ocr-heb \
-    libtesseract-dev \
-    libleptonica-dev \
-    && rm -rf /var/lib/apt/lists/*
+    tesseract-ocr-data-heb \
+    tesseract-ocr-data-eng \
+    tesseract-ocr-data-ara \
+    leptonica-dev \
+    pkgconfig \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/cache/apk/*
 
-# דיבוג - לראות מה באמת קיים
-RUN echo "=== Debug: Looking for leptonica files ===" \
-    && find /usr -name "*leptonica*" -type f 2>/dev/null | head -10 \
-    && echo "=== Debug: Looking in common lib directories ===" \
-    && ls -la /usr/lib/x86_64-linux-gnu/*leptonica* 2>/dev/null || echo "Not found in x86_64-linux-gnu" \
-    && ls -la /usr/lib/*leptonica* 2>/dev/null || echo "Not found in /usr/lib" \
-    && ls -la /lib/x86_64-linux-gnu/*leptonica* 2>/dev/null || echo "Not found in /lib/x86_64-linux-gnu"
+# Debug: Check what Leptonica files are available
+RUN echo "=== Checking Leptonica installation ===" && \
+    find /usr -name "*leptonica*" -type f 2>/dev/null | head -10 && \
+    echo "=== Checking lib directories ===" && \
+    ls -la /usr/lib/ | grep lept || echo "No leptonica in /usr/lib/" && \
+    ls -la /usr/local/lib/ | grep lept || echo "No leptonica in /usr/local/lib/" && \
+    echo "=== End debug info ==="
 
-# יצירת symlinks חכמה - מוצא את הקובץ הנכון אוטומטית
-RUN LEPTONICA_LIB=$(find /usr -name "libleptonica.so*" -type f | head -1) \
-    && if [ -n "$LEPTONICA_LIB" ]; then \
+# Create symbolic links for leptonica (Alpine specific)
+RUN LEPTONICA_LIB=$(find /usr -name "libleptonica.so*" -type f | head -1) && \
+    if [ -n "$LEPTONICA_LIB" ]; then \
         echo "Found leptonica at: $LEPTONICA_LIB"; \
+        mkdir -p /usr/lib/x86_64-linux-gnu /usr/local/lib; \
         ln -sf "$LEPTONICA_LIB" /usr/lib/libleptonica-1.82.0.so; \
         ln -sf "$LEPTONICA_LIB" /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so; \
         ln -sf "$LEPTONICA_LIB" /usr/local/lib/libleptonica-1.82.0.so; \
     else \
-        echo "ERROR: libleptonica not found!"; \
+        echo "ERROR: libleptonica not found! Installing from source..."; \
+        apk add --no-cache wget cmake && \
+        cd /tmp && \
+        wget https://github.com/DanBloomberg/leptonica/releases/download/1.82.0/leptonica-1.82.0.tar.gz && \
+        tar -xzf leptonica-1.82.0.tar.gz && \
+        cd leptonica-1.82.0 && \
+        ./configure --prefix=/usr/local && \
+        make && make install && \
+        ldconfig /usr/local/lib && \
+        cd / && rm -rf /tmp/leptonica-1.82.0*; \
     fi
 
-# עדכון ldconfig
-RUN ldconfig
+# Set library paths
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 
-# וידוא סופי
-RUN echo "=== Final verification ===" \
-    && ls -la /usr/lib/*leptonica* 2>/dev/null || echo "No leptonica in /usr/lib" \
-    && ls -la /usr/lib/x86_64-linux-gnu/*leptonica* 2>/dev/null || echo "No leptonica in x86_64-linux-gnu" \
-    && ldconfig -p | grep leptonica || echo "leptonica not found in ldconfig"
-
-USER $APP_UID
+# Set working directory
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
 
-# This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["Api/Api.csproj", "Api/"]
-COPY ["Core/Core.csproj", "Core/"]
-COPY ["Data/Data.csproj", "Data/"]
-COPY ["Service/Service.csproj", "Service/"]
-RUN dotnet restore "./Api/Api.csproj"
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application files
 COPY . .
-WORKDIR "/src/Api"
-RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# This stage is used to publish the service project to be copied to the final stage
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Build the application
+RUN npm run build
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-FROM base AS final
+# Production stage
+FROM node:18-alpine as production
+
+# Install runtime dependencies
+RUN apk add --no-cache \
+    tesseract-ocr \
+    tesseract-ocr-data-heb \
+    tesseract-ocr-data-eng \
+    tesseract-ocr-data-ara \
+    leptonica
+
+# Copy built application
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=base /app/dist ./dist
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
 
-# הגדרות סביבה מרובות נתיבים
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata:/usr/share/tesseract-ocr/5/tessdata
-ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+# Copy leptonica libraries if they were built from source
+COPY --from=base /usr/local/lib/libleptonica* /usr/local/lib/ 2>/dev/null || true
 
-ENTRYPOINT ["dotnet", "Api.dll"]
+# Set library paths
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:$LD_LIBRARY_PATH
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD node healthCheck.js || exit 1
+
+# Start the application
+CMD ["npm", "start"]
