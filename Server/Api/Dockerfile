@@ -22,6 +22,9 @@ RUN LIBFILE=$(find /usr -name "libleptonica.so*" | head -n 1) && \
 
 # נעתיק את הקובץ לספרייה ש-netstandard מחפשת בה כברירת מחדל
 RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so
+# Copy the leptonica lib to a location InteropDotNet will find
+RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/libleptonica-1.82.0.so && \
+    ldconfig
 
 # עדכון ldconfig
 RUN ldconfig
