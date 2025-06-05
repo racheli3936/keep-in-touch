@@ -187,12 +187,28 @@ namespace Api.Controllers
             return Ok(resultText);
         }
 
+        //private string ExtractTextFromImage(string imagePath)
+        //{
+
+        //    var tessDataPath = Path.Combine(AppContext.BaseDirectory, "tessdata");
+        //    using (var engine = new TesseractEngine(tessDataPath, "heb", EngineMode.Default))
+        //    {
+        //        using (var img = Pix.LoadFromFile(imagePath))
+        //        {
+        //            using (var page = engine.Process(img))
+        //            {
+        //                Console.WriteLine(page.GetText());
+        //                return page.GetText();
+        //            }
+        //        }
+        //    }
+        //}
         private string ExtractTextFromImage(string imagePath)
         {
-            var tessDataPath = Path.Combine(AppContext.BaseDirectory, "tessdata");
-            using (var engine = new TesseractEngine(tessDataPath, "heb", EngineMode.Default))
-            //string tessDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
-          //  using (var engine = new TesseractEngine(@"tessdata", "heb", EngineMode.Default))
+            // הגדרת משתנה סביבה למיקום התקין של tessdata
+            Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/");
+
+            using (var engine = new TesseractEngine("/usr/share/tesseract-ocr/5/tessdata", "heb", EngineMode.Default))
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {
