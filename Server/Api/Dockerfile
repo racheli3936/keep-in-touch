@@ -7,7 +7,6 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -18,6 +17,10 @@ COPY ["Data/Data.csproj", "Data/"]
 COPY ["Service/Service.csproj", "Service/"]
 RUN dotnet restore "./Api/Api.csproj"
 COPY . .
+
+# Install Leptonica dependencies
+RUN apt-get update && apt-get install -y libleptonica-dev
+
 WORKDIR "/src/Api"
 RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
