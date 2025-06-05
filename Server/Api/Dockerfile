@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libtesseract-dev \
     libleptonica-dev \
     && rm -rf /var/lib/apt/lists/*
+RUN find /usr -name "libleptonica.so*"
 
 # יצירת symlink עבור Leptonica לפי שם הקובץ הקיים
 RUN LIBFILE=$(find /usr -name "libleptonica.so*" | head -n 1) && \
