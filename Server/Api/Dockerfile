@@ -1,38 +1,7 @@
-# בסיס להרצה (Fast mode ו־Production)
+# בסיס להרצה
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
 USER root
-
-# התקנת Tesseract ושפות נדרשות
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    tesseract-ocr-heb \
-    libtesseract-dev \
-    libleptonica-dev \
-    && rm -rf /var/lib/apt/lists/*
-RUN find /usr -name "libleptonica.so*"
-RUN echo ">>> חיפוש ספריית Leptonica..." && find /usr -name "libleptonica.so*"
-
-
-# יצירת symlink עבור Leptonica לפי שם הקובץ הקיים
-RUN LIBFILE=$(find /usr -name "libleptonica.so*" | head -n 1) && \
-    echo "Linking $LIBFILE to /usr/lib/libleptonica-1.82.0.so" && \
-    ln -sf "$LIBFILE" /usr/lib/libleptonica-1.82.0.so || echo "Symlink failed, but continuing"
-
-# נעתיק את הקובץ לספרייה ש-netstandard מחפשת בה כברירת מחדל
-RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so
-# Copy the leptonica lib to a location InteropDotNet will find
-RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/libleptonica-1.82.0.so && \
-    ldconfig
-
-# עדכון ldconfig
-RUN ldconfig
-
-
-# הגדרות סביבתיות עבור Tesseract
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata:/usr/share/tesseract-ocr/5/tessdata
-ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 
 WORKDIR /app
 EXPOSE 8080
@@ -56,9 +25,27 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# שלב סופי
+# שלב סופי – עם התקנות!
 FROM base AS final
 WORKDIR /app
+
+# התקנת Tesseract והספריות הנלוות בשלב הסופי
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    tesseract-ocr-heb \
+    libtesseract-dev \
+    libleptonica-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# יצירת symlink לפי הצורך
+RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/libleptonica-1.82.0.so && \
+    ldconfig
+
+# הגדרות סביבתיות עבור Tesseract
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata:/usr/share/tesseract-ocr/5/tessdata
+ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
 COPY --from=publish /app/publish .
 
 ENTRYPOINT ["dotnet", "Api.dll"]
