@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # נוודא שהספריות ה־native זמינות
-ENV LD_LIBRARY_PATH="/usr/lib/x86_64-linux-gnu:/usr/local/lib:${LD_LIBRARY_PATH}"
+ENV LD_LIBRARY_PATH="/usr/lib/x86:/usr/local/lib:${LD_LIBRARY_PATH}"
 RUN ldconfig
 
 WORKDIR /app
@@ -50,7 +50,7 @@ RUN chmod -R 755 ./tessdata
 # בדיקת תקינות
 RUN tesseract --version && \
     tesseract --list-langs && \
-    ls -la /usr/lib/x86_64-linux-gnu/ | grep lept
+    ls -la /usr/lib/x86/ | grep lept
 
 # להסיר את השורה הזו - APP_UID לא מוגדר ולא נחוץ, וזה עלול לגרום לשגיאות גישה
 # USER $APP_UID
