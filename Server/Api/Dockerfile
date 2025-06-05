@@ -1,13 +1,37 @@
-# בסיס להרצה
+# =====================
+# שלב בסיס להרצה
+# =====================
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-
+WORKDIR /app
 USER root
 
-WORKDIR /app
+# נתקין תלויות + נבנה את Tesseract מהקוד
+RUN apt-get update && apt-get install -y \
+    g++ autoconf autoconf-archive automake libtool pkg-config \
+    libpng-dev libjpeg62-turbo-dev libtiff5-dev libicu-dev \
+    libpango1.0-dev wget unzip make git libleptonica-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV TESS_VERSION=5.0.0-rc2
+WORKDIR /tmp
+RUN wget "https://github.com/tesseract-ocr/tesseract/archive/${TESS_VERSION}.zip" && \
+    unzip "${TESS_VERSION}.zip" && \
+    cd "tesseract-${TESS_VERSION}" && \
+    ./autogen.sh && ./configure && \
+    make -j$(nproc) && make install && ldconfig
+
+# הורדת קבצי שפה (עברית + אנגלית)
+ENV TESSDATA_PREFIX=/usr/local/share/tessdata
+RUN mkdir -p $TESSDATA_PREFIX && \
+    wget -O $TESSDATA_PREFIX/eng.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata" && \
+    wget -O $TESSDATA_PREFIX/heb.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/heb.traineddata"
+
 EXPOSE 8080
 EXPOSE 8081
 
+# =====================
 # שלב בנייה
+# =====================
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
@@ -15,35 +39,26 @@ COPY ["Api/Api.csproj", "Api/"]
 COPY ["Core/Core.csproj", "Core/"]
 COPY ["Data/Data.csproj", "Data/"]
 COPY ["Service/Service.csproj", "Service/"]
-RUN dotnet restore "./Api/Api.csproj"
+RUN dotnet restore "Api/Api.csproj"
 COPY . .
 WORKDIR "/src/Api"
-RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# שלב publish
+# =====================
+# שלב פרסום
+# =====================
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# שלב סופי – עם התקנות!
+# =====================
+# שלב סופי
+# =====================
 FROM base AS final
 WORKDIR /app
-
-# התקנת Tesseract והספריות הנלוות בשלב הסופי
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    tesseract-ocr-heb \
-    libtesseract-dev \
-    libleptonica-dev \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN find /usr/lib /usr/lib/x86_64-linux-gnu -name "liblept.so*" -exec ln -s {} /usr/lib/libleptonica-1.82.0.so \; || true
-#RUN ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5 /usr/lib/libleptonica-1.82.0.so
-
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5/tessdata
-ENV LD_LIBRARY_PATH=/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-
+RUN find / -name "eng.traineddata"
+# להעתיק את האפליקציה שפורסמה
 COPY --from=publish /app/publish .
 
+# להריץ את האפליקציה
 ENTRYPOINT ["dotnet", "Api.dll"]
