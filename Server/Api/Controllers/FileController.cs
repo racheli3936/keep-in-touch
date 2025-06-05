@@ -187,8 +187,8 @@ namespace Api.Controllers
 
         private string ExtractTextFromImage(string imagePath)
         {
-            string tessDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
-            using (var engine = new TesseractEngine(tessDataPath, "heb", EngineMode.Default))
+            //string tessDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
+            using (var engine = new TesseractEngine(@"tessdata", "heb", EngineMode.Default))
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {

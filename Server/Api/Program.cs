@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(options =>
 
 var connectionString = builder.Configuration["ConnectionString:connectDB"];
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options => options.CommandTimeout(60)));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), options => options.CommandTimeout(6000)));
 
 builder.Services.AddCors(opt => opt.AddPolicy("MyPolicy", policy => { policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod(); }));
 
@@ -121,6 +121,5 @@ app.UseAuthentication(); // הוספת Middleware לאימות
 app.UseAuthorization();
 app.MapControllers();
 app.MapGet("/", () => "Hello World!");
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-app.Urls.Add($"http://0.0.0.0:{port}");
+
 app.Run();
