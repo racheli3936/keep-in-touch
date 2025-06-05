@@ -13,6 +13,10 @@ RUN apt-get update && apt-get install -y \
     libleptonica-dev \
     && ldconfig \
     && rm -rf /var/lib/apt/lists/*
+    # יצירת symlink בשם שה-Tesseract מחפש
+RUN LIBFILE=$(find /usr -name "libleptonica.so*" | head -n 1) && \
+    echo "Linking $LIBFILE to /usr/lib/libleptonica-1.82.0.so" && \
+    ln -s "$LIBFILE" /usr/lib/libleptonica-1.82.0.so || true
 
 # תיקיית עבודה
 WORKDIR /app
