@@ -1,7 +1,7 @@
 # =====================
-# שלב התקנת Tesseract
+# שלב בסיס להרצה עם Tesseract ו-dependencies
 # =====================
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS tesseract
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 USER root
 
@@ -25,14 +25,37 @@ RUN mkdir -p $TESSDATA_PREFIX && \
 
 EXPOSE 8080
 EXPOSE 8081
+
 # =====================
-# שלב סופי
+# שלב בנייה
 # =====================
-FROM tesseract AS final
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+
+COPY ["Api/Api.csproj", "Api/"]
+COPY ["Core/Core.csproj", "Core/"]
+COPY ["Data/Data.csproj", "Data/"]
+COPY ["Service/Service.csproj", "Service/"]
+
+RUN dotnet restore "Api/Api.csproj"
+COPY . .
+WORKDIR "/src/Api"
+RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# =====================
+# שלב פרסום
+# =====================
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# =====================
+# שלב סופי להרצה
+# =====================
+FROM base AS final
 WORKDIR /app
-
-RUN find / -name "eng.traineddata"
-
+RUN find / -name "heb.traineddata"
 COPY --from=publish /app/publish .
 
 ENTRYPOINT ["dotnet", "Api.dll"]
