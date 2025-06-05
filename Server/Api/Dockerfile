@@ -1,5 +1,5 @@
 # =====================
-# שלב בסיס להרצה עם Tesseract ו-dependencies
+# שלב בסיס עם Tesseract
 # =====================
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
@@ -19,9 +19,13 @@ RUN wget "https://github.com/tesseract-ocr/tesseract/archive/${TESS_VERSION}.zip
     ./autogen.sh && ./configure && \
     make -j$(nproc) && make install && ldconfig
 
+# הורדת מודל עברית בלבד
 ENV TESSDATA_PREFIX=/usr/local/share/tessdata
 RUN mkdir -p $TESSDATA_PREFIX && \
     wget -O $TESSDATA_PREFIX/heb.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/heb.traineddata"
+
+# לבדוק שהקובץ באמת שם
+RUN ls -l /usr/local/share/tessdata/heb.traineddata || echo "heb.traineddata not found"
 
 EXPOSE 8080
 EXPOSE 8081
@@ -55,7 +59,5 @@ RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAp
 # =====================
 FROM base AS final
 WORKDIR /app
-RUN find / -name "heb.traineddata"
 COPY --from=publish /app/publish .
-
 ENTRYPOINT ["dotnet", "Api.dll"]
