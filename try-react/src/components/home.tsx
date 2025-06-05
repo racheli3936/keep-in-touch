@@ -19,7 +19,7 @@ const Home = observer(() => {
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
   const navigate=useNavigate();
     const [storageUsage, setStorageUsage] = useState<number>(0);
-
+ const [countMembers, setCountMembers] = useState(0);
    useEffect(() => {
     const totalSize = recentFiles.reduce((accumulator, file) => {
       console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
