@@ -1,11 +1,10 @@
 # =====================
-# שלב בסיס להרצה
+# שלב התקנת Tesseract
 # =====================
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS tesseract
 WORKDIR /app
 USER root
 
-# נתקין תלויות + נבנה את Tesseract מהקוד
 RUN apt-get update && apt-get install -y \
     g++ autoconf autoconf-archive automake libtool pkg-config \
     libpng-dev libjpeg62-turbo-dev libtiff5-dev libicu-dev \
@@ -20,45 +19,20 @@ RUN wget "https://github.com/tesseract-ocr/tesseract/archive/${TESS_VERSION}.zip
     ./autogen.sh && ./configure && \
     make -j$(nproc) && make install && ldconfig
 
-# הורדת קבצי שפה (עברית + אנגלית)
 ENV TESSDATA_PREFIX=/usr/local/share/tessdata
 RUN mkdir -p $TESSDATA_PREFIX && \
-    wget -O $TESSDATA_PREFIX/eng.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata" && \
     wget -O $TESSDATA_PREFIX/heb.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/heb.traineddata"
 
 EXPOSE 8080
 EXPOSE 8081
-
-# =====================
-# שלב בנייה
-# =====================
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
-ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["Api/Api.csproj", "Api/"]
-COPY ["Core/Core.csproj", "Core/"]
-COPY ["Data/Data.csproj", "Data/"]
-COPY ["Service/Service.csproj", "Service/"]
-RUN dotnet restore "Api/Api.csproj"
-COPY . .
-WORKDIR "/src/Api"
-RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-# =====================
-# שלב פרסום
-# =====================
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
 # =====================
 # שלב סופי
 # =====================
-FROM base AS final
+FROM tesseract AS final
 WORKDIR /app
+
 RUN find / -name "eng.traineddata"
-# להעתיק את האפליקציה שפורסמה
+
 COPY --from=publish /app/publish .
 
-# להריץ את האפליקציה
 ENTRYPOINT ["dotnet", "Api.dll"]

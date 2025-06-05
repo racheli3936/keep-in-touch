@@ -209,9 +209,8 @@ namespace Api.Controllers
            // Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/tessdata");
            // Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", "/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu");
 
-            Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/tessdata");
-
-            using (var engine = new TesseractEngine("/usr/share/tesseract-ocr/5/tessdata", "heb", EngineMode.Default))
+            //Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/tessdata");
+            using var engine = new TesseractEngine("/usr/local/share/tessdata", "heb", EngineMode.Default);
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {
