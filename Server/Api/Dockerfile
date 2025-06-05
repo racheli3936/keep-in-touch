@@ -20,8 +20,12 @@ RUN LIBFILE=$(find /usr -name "libleptonica.so*" | head -n 1) && \
     echo "Linking $LIBFILE to /usr/lib/libleptonica-1.82.0.so" && \
     ln -sf "$LIBFILE" /usr/lib/libleptonica-1.82.0.so || echo "Symlink failed, but continuing"
 
+# נעתיק את הקובץ לספרייה ש-netstandard מחפשת בה כברירת מחדל
+RUN cp -a /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so
+
 # עדכון ldconfig
 RUN ldconfig
+
 
 # הגדרות סביבתיות עבור Tesseract
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata:/usr/share/tesseract-ocr/5/tessdata
