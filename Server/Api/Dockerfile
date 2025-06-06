@@ -62,7 +62,8 @@ WORKDIR /app
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
 RUN ldconfig
 RUN find / -name "libleptonica*.so*" || echo "libleptonica not found"
-RUN ln -s /usr/local/lib/libleptonica*.so /usr/local/lib/libleptonica-1.82.0.so || echo "symlink already exists or not needed"
+#RUN ln -s /usr/local/lib/libleptonica*.so /usr/local/lib/libleptonica-1.82.0.so || echo "symlink already exists or not needed"
+RUN ln -s /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so || echo "symlink already exists"
 
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
