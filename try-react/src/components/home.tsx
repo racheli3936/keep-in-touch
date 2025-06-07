@@ -8,6 +8,9 @@ import EventsStore from "../stores/EventsStore";
 import GroupStore from "../stores/GroupStore";
 import UserStore from "../stores/UserStore";
 import { useNavigate } from "react-router-dom";
+interface MembersCount {
+  [key: string]: number; // מפתחות מסוג string עם ערכים מסוג number
+}
 
 const Home = observer(() => {
 
@@ -19,7 +22,18 @@ const Home = observer(() => {
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
   const navigate=useNavigate();
     const [storageUsage, setStorageUsage] = useState<number>(0);
- const [countMembers, setCountMembers] = useState(0);
+const [membersCount, setMembersCount] = useState<MembersCount>({});
+  useEffect(() => {
+    const fetchAllMembersCount = async () => {
+      const counts:MembersCount = {};
+      for (const group of activeGroups) {
+        counts[group.id] = await getCountMembers(group.id.toString());
+      }
+      setMembersCount(counts);
+    };
+
+    fetchAllMembersCount();
+  }, [activeGroups]);
    useEffect(() => {
     const totalSize = recentFiles.reduce((accumulator, file) => {
       console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
@@ -197,7 +211,7 @@ const Home = observer(() => {
                         </span>
                       )} */}
 
-                      <span className="members-count">  {getCountMembers(group.id.toString())}  חברים</span>
+                      <span className="members-count">   {membersCount[group.id] || 0} חברים</span>
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
