@@ -13,7 +13,6 @@ interface MembersCount {
 }
 
 const Home = observer(() => {
-
   const [notifications, setNotifications] = useState<Massage[]>([]);
   const [recentFiles, setRecentFiles] = useState<MyFile[]>([]);
   const [activeGroups, setActiveGroups] = useState<Group[]>([]);
@@ -21,9 +20,9 @@ const Home = observer(() => {
   const [hoveredFile, setHoveredFile] = useState<number | null>(null);
   const [hoveredGroup, setHoveredGroup] = useState<number | null>(null);
   const [anyGroupId, setAnyGroupId] = useState<number | null>(null);
+  const [storageUsage, setStorageUsage] = useState<number>(0);
+  const [membersCount, setMembersCount] = useState<MembersCount>({});
   const navigate=useNavigate();
-    const [storageUsage, setStorageUsage] = useState<number>(0);
-const [membersCount, setMembersCount] = useState<MembersCount>({});
   useEffect(() => {
     const fetchAllMembersCount = async () => {
       const counts:MembersCount = {};
@@ -88,10 +87,11 @@ const [membersCount, setMembersCount] = useState<MembersCount>({});
                 מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
               </p>
               <div className="action-buttons">
-                <button className="action-button upload-button">
-                  {typeof Upload === 'function' ? <Upload className="blue-icon" size={24} /> : "⬆️"}
+                {/* <button className="action-button upload-button"> */}
+                  {/* {typeof Upload === 'function' ?  */}
+                  <Upload className="blue-icon" size={24} /> : "⬆️"}
                   <span className="upload-button-text">העלאת קובץ</span>
-                </button>
+                {/* </button> */}
                 <button className="action-button message-button">
                   {typeof MessageSquare === 'function' ? <MessageSquare className="green-icon" size={24} /> : "💬"}
                   <span className="message-button-text">הודעה חדשה</span>
