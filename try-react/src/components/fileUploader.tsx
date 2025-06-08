@@ -34,6 +34,8 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   }
 useEffect(() => {
     if (newContent) {
+  
+      console.log('newContentSunDay', newContent);
         saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
     }
 }, [newContent]);
