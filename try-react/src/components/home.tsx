@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FileText, Users, Upload, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
+import { FileText, Users, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
