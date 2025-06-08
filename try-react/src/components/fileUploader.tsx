@@ -32,6 +32,11 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     primary: "#4361EE", secondary: "#3A0CA3", accent1: "#4CC9F0",
     accent2: "#F72585", accent3: "#7209B7", light: "#F8F9FA", dark: "#212529"
   }
+useEffect(() => {
+    if (newContent) {
+        saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
+    }
+}, [newContent]);
 
   useEffect(() => {
     if (open) {
@@ -126,7 +131,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
       try {
         await getDownloadUrl()
         await extractTextFromImg()
-        await saveTheContentOfTheFile()
+        //await saveTheContentOfTheFile()
         console.log("i extract");
         
       }
@@ -164,7 +169,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
       const response = await axios.post(`https://keepintouch.onrender.com/api/File/readtext?fileName=${file?.name}`)
       console.log(response.data);
       
-      await setNewContent(response.data as string)
+      setNewContent(response.data as string)
     } catch (err) {
       console.log("Error in extractTextFromImg", err)
     }
