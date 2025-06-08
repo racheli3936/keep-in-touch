@@ -87,11 +87,11 @@ const Home = observer(() => {
                 מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
               </p>
               <div className="action-buttons">
-                {/* <button className="action-button upload-button"> */}
+                <button className="action-button upload-button">
                   {/* {typeof Upload === 'function' ?  */}
                   <Upload className="blue-icon" size={24} /> : "⬆️"
                   <span className="upload-button-text">העלאת קובץ</span>
-                {/* </button> */}
+                </button>
                 <button className="action-button message-button">
                   {typeof MessageSquare === 'function' ? <MessageSquare className="green-icon" size={24} /> : "💬"}
                   <span className="message-button-text">הודעה חדשה</span>
