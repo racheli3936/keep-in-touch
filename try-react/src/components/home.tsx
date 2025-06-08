@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FileText, Users, MessageSquare, Search, AlertCircle, Settings, Plus } from "lucide-react";
+import {  Search, AlertCircle, Settings, Plus } from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
@@ -87,18 +87,15 @@ const Home = observer(() => {
                 מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
               </p>
               <div className="action-buttons">
-                <div className="action-button upload-button">
-                   "⬆️"
+                <div className="action-button upload-button">  ⬆️
                   <span className="upload-button-text">העלאת קובץ</span>
                 </div>
-                <button className="action-button message-button">
-                  {typeof MessageSquare === 'function' ? <MessageSquare className="green-icon" size={24} /> : "💬"}
+                <div className="action-button message-button">💬
                   <span className="message-button-text">הודעה חדשה</span>
-                </button>
-                <button className="action-button users-button">
-                  {typeof Users === 'function' ? <Users className="purple-icon" size={24} /> : "👥"}
+                </div>
+                <div className="action-button users-button">👥
                   <span className="users-button-text">קבוצה חדשה</span>
-                </button>
+                </div>
               </div>
             </div>
 
@@ -126,15 +123,13 @@ const Home = observer(() => {
                         <div className="file-name">{file.fileName}</div>
                         <div className="file-shared-by">שותף ע"י {getUserName(file.userId)}</div>
                       </div>
-                      <div className="file-icon">
-                        {typeof FileText === 'function' ? <FileText size={20} /> : "📄"}
-                      </div>
+                      <div className="file-icon">📄</div>
                     </div>
                   </div>
                 ))}
               </div>
               <button className="add-file-button" onClick={navigateDashboard}>
-                {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
+               <Plus size={16} className="icon-margin-left" />
                 <span>העלאת קובץ חדש</span>
               </button>
             </div>
@@ -143,7 +138,8 @@ const Home = observer(() => {
             <div className="whats-new-card">
               <div className="whats-new-header">
                 <button className="settings-button">
-                  {typeof Settings === 'function' ? <Settings size={18} /> : "⚙️"}
+                 <Settings size={18} /> 
+                  {/* // : "⚙️"} */}
                 </button>
                 <h2 className="whats-new-title">
                   {typeof AlertCircle === 'function' ? <AlertCircle size={18} className="icon-margin-left" /> : "ℹ️"}
