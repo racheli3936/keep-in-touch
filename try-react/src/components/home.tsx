@@ -89,7 +89,7 @@ const Home = observer(() => {
               <div className="action-buttons">
                 {/* <button className="action-button upload-button"> */}
                   {/* {typeof Upload === 'function' ?  */}
-                  <Upload className="blue-icon" size={24} /> : "⬆️"}
+                  <Upload className="blue-icon" size={24} /> : "⬆️"
                   <span className="upload-button-text">העלאת קובץ</span>
                 {/* </button> */}
                 <button className="action-button message-button">
