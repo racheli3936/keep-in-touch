@@ -160,7 +160,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   }
 
   const extractTextFromImg = async () => {
-    try {
+    try {                              
       const response = await axios.post(`https://keepintouch.onrender.com/api/File/readtext?fileName=${file?.name}`)
       console.log(response.data);
       
@@ -172,10 +172,12 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
 
   const saveTheContentOfTheFile = async () => {
     console.log("new----contect",newContent,"new-------content");
+    const eventId=EventsStore.currentEventAdd?.id
+    console.log(eventId,"eventId");
     
     try {
       await axios.put(
-        `https://keepintouch.onrender.com/api/File/${EventsStore.currentEventAdd?.id}/content`,
+        `https://keepintouch.onrender.com/api/File/${eventId}/content`,
         newContent,
         {
           headers: {
