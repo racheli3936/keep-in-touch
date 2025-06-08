@@ -155,8 +155,11 @@ namespace Api.Controllers
 
             try
             {
+                //2 השורות האלו הוספתי לבדיקת הפרויקט בסביבת DOCKER, זה מבטל את הצורך בתעודות אבטחה
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 // הורדת התמונה מה-URL
-                using (var httpClient = new HttpClient())
+                using (var httpClient = new HttpClient(handler))
                 {
                     var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
                     var tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + fileType);
@@ -205,12 +208,9 @@ namespace Api.Controllers
         //}
         private string ExtractTextFromImage(string imagePath)
         {
-            // הגדרת משתנה סביבה למיקום התקין של tessdata
-           // Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/tessdata");
-           // Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", "/usr/lib:/usr/lib/x86_64-linux-gnu:/usr/local/lib:/lib/x86_64-linux-gnu");
-
-            //Environment.SetEnvironmentVariable("TESSDATA_PREFIX", "/usr/share/tesseract-ocr/5/tessdata");
-            using var engine = new TesseractEngine("/usr/local/share/tessdata", "heb", EngineMode.Default);
+            var tessdataPath = Environment.GetEnvironmentVariable("TESSDATA_PREFIX");
+            Console.WriteLine($"TESSDATA_PREFIX: {tessdataPath}");
+            using var engine = new TesseractEngine(tessdataPath, "heb", EngineMode.Default);
             {
                 using (var img = Pix.LoadFromFile(imagePath))
                 {

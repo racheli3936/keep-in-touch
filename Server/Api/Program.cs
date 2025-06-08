@@ -107,6 +107,8 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
     });
+//builder.WebHost.UseUrls("http://0.0.0.0:8080");
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

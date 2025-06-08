@@ -1,37 +1,51 @@
 # =====================
-# שלב בסיס עם Tesseract
+# בסיס להרצה – כולל Tesseract
 # =====================
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 USER root
 
+# התקנת תלות בסיסית
 RUN apt-get update && apt-get install -y \
-    g++ autoconf autoconf-archive automake libtool pkg-config \
-    libpng-dev libjpeg62-turbo-dev libtiff5-dev libicu-dev \
-    libpango1.0-dev wget unzip make git libleptonica-dev && \
-    rm -rf /var/lib/apt/lists/*
+    apt-transport-https \
+    gnupg2 \
+    lsb-release \
+    software-properties-common \
+    wget \
+    libc6-dev \
+    libgdiplus \
+    libx11-dev \
+    libleptonica-dev
 
-ENV TESS_VERSION=5.0.0-rc2
-WORKDIR /tmp
-RUN wget "https://github.com/tesseract-ocr/tesseract/archive/${TESS_VERSION}.zip" && \
-    unzip "${TESS_VERSION}.zip" && \
-    cd "tesseract-${TESS_VERSION}" && \
-    ./autogen.sh && ./configure && \
-    make -j$(nproc) && make install && ldconfig
+# העתקת מפתח ההתקנה של notesalexp
+COPY Api/alexp_key.asc /tmp/alexp_key.asc
 
-# הורדת מודל עברית בלבד
-ENV TESSDATA_PREFIX=/usr/local/share/tessdata
-RUN mkdir -p $TESSDATA_PREFIX && \
-    wget -O $TESSDATA_PREFIX/heb.traineddata "https://github.com/tesseract-ocr/tessdata_best/raw/main/heb.traineddata"
+# הוספת המפתח למערכת המפתחות
+RUN apt-key add /tmp/alexp_key.asc && rm /tmp/alexp_key.asc
 
-# לבדוק שהקובץ באמת שם
-RUN ls -l /usr/local/share/tessdata/heb.traineddata || echo "heb.traineddata not found"
+# הוספת מאגר notesalexp + התקנת Tesseract
+RUN echo "deb https://notesalexp.org/tesseract-ocr5/$(lsb_release -cs)/ $(lsb_release -cs) main" \
+    > /etc/apt/sources.list.d/notesalexp.list && \
+    apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-heb
+
+# קישורים לספריות ש-Tesseract .NET מצפה להן
+RUN mkdir -p /app/x64 && \
+    ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5 /app/x64/libleptonica-1.82.0.so && \
+    ln -s /usr/lib/x86_64-linux-gnu/libtesseract.so.5 /app/x64/libtesseract51.so && \
+    ln -s /usr/lib/x86_64-linux-gnu/libtesseract.so.5 /app/x64/libtesseract50.so && \
+    ln -s /lib/x86_64-linux-gnu/libdl.so.2 /app/x64/libdl.so
+
+# משתנים סביבתיים
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5/tessdata
+ENV LD_LIBRARY_PATH=/app/x64:/usr/local/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
 
 EXPOSE 8080
 EXPOSE 8081
 
 # =====================
-# שלב בנייה
+# שלב הבנייה
 # =====================
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
@@ -48,24 +62,17 @@ WORKDIR "/src/Api"
 RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # =====================
-# שלב פרסום
+# שלב הפרסום
 # =====================
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # =====================
-# שלב סופי להרצה
+# שלב סופי
 # =====================
 FROM base AS final
 WORKDIR /app
-ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/lib/x86_64-linux-gnu:/lib/x86_64-linux-gnu
-RUN ldconfig
-RUN find / -name "libleptonica*.so*" || echo "libleptonica not found"
-#RUN ln -s /usr/local/lib/libleptonica*.so /usr/local/lib/libleptonica-1.82.0.so || echo "symlink already exists or not needed"
-RUN ln -s /usr/lib/x86_64-linux-gnu/libleptonica.so /usr/lib/x86_64-linux-gnu/libleptonica-1.82.0.so || echo "symlink already exists"
-
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "Api.dll"]
-
-
