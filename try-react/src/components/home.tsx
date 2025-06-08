@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import {  Search, AlertCircle, Settings, Plus } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
@@ -9,7 +9,7 @@ import GroupStore from "../stores/GroupStore";
 import UserStore from "../stores/UserStore";
 import { useNavigate } from "react-router-dom";
 interface MembersCount {
-  [key: string]: number; // מפתחות מסוג string עם ערכים מסוג number
+  [key: string]: number; 
 }
 
 const Home = observer(() => {
@@ -137,13 +137,8 @@ const Home = observer(() => {
             {/* What's New / Tips */}
             <div className="whats-new-card">
               <div className="whats-new-header">
-                <button className="settings-button">
-                 <Settings size={18} /> 
-                  {/* // : "⚙️"} */}
-                </button>
-                <h2 className="whats-new-title">
-                  {typeof AlertCircle === 'function' ? <AlertCircle size={18} className="icon-margin-left" /> : "ℹ️"}
-                  מה חדש במערכת?
+                <button className="settings-button">⚙️</button>
+                <h2 className="whats-new-title">ℹ️ מה חדש במערכת?
                 </h2>
               </div>
               <ul className="whats-new-list">
@@ -202,19 +197,12 @@ const Home = observer(() => {
                     onMouseLeave={() => setHoveredGroup(null)}
                   >
                     <div className="group-info">
-                      {/* {group.unread > 0 && (
-                        <span className="unread-badge">
-                          {group.unread}
-                        </span>
-                      )} */}
-
                       <span className="members-count">   {membersCount[group.id] || 0} חברים</span>
                     </div>
                     <span className="group-name">{group.name}</span>
                   </div>
                 ))}
-                <button className="add-group-button" onClick={navigateDashboard}>
-                  {typeof Plus === 'function' ? <Plus size={16} className="icon-margin-left" /> : "+"}
+                <button className="add-group-button" onClick={navigateDashboard}>+
                   <span>הוספת קבוצה חדשה</span>
                 </button>
               </div>
