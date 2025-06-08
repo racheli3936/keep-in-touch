@@ -63,7 +63,7 @@ const [membersCount, setMembersCount] = useState<MembersCount>({});
     loadNotifications();
     loadRecentFiles();
     
-  }, []);
+  }, [activeGroups, anyGroupId]);
   const getUserName = (userId: number) => {
     return UserStore.Userslist.find(user => user.id === userId)?.name || userId;
   }
