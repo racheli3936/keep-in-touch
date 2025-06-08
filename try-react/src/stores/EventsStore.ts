@@ -27,10 +27,10 @@ class EventsStore {
             console.error('Error uploading file:', error);
         }
     }
-    async getEvevntByGroupId() {
+    async getEvevntByGroupId(groupId:number=GroupStore.currentGroup.id) {
         const token = localStorage.getItem('token'); // Retrieve token from local storage
         try {
-            const response = await axios.get(`https://keepintouch.onrender.com/api/File/group/${GroupStore.currentGroup.id}`, {
+            const response = await axios.get(`https://keepintouch.onrender.com/api/File/group/${groupId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

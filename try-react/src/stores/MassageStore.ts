@@ -10,9 +10,9 @@ class MessageStore {
         makeAutoObservable(this);
     }
 
-    fetchMessages = async () => {
+    fetchMessages = async (groupId:number=GroupStore.currentGroup.id) => {
         try {
-            const response = await axios.get(`https://keepintouch.onrender.com/api/Massage/${GroupStore.currentGroup.id}/massages`, {
+            const response = await axios.get(`https://keepintouch.onrender.com/api/Massage/${groupId}/massages`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
