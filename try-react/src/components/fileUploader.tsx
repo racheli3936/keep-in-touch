@@ -25,7 +25,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   const [showError, setShowError] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [isDragActive, setIsDragActive] = useState(false)
-  const [category, setCategory] = useState<ECategory>("");
+  const [category, setCategory] = useState<ECategory>(ECategory.other);
   const [description, setDescription] = useState<string>("");
 
   const colors = {
