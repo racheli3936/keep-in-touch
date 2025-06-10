@@ -4,12 +4,13 @@ import { Box, Grid, Card, CardActions, Button, Typography, Skeleton, IconButton,
 import { Download, ZoomIn, X, FileType } from "lucide-react"
 import EventsStore from "../stores/EventsStore"
 import { staggerContainerVariants, itemVariants, hoverVariants } from "./themeProvider"
+import { observer } from "mobx-react-lite"
 
 interface ShowDocumentsProps {
   searchTerm?: string
 }
 
-const ShowDocuments = ({ searchTerm = "" }: ShowDocumentsProps) => {
+const ShowDocuments = observer(({ searchTerm = "" }: ShowDocumentsProps) => {
   const [urls, setUrls] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedFile, setSelectedFile] = useState<string | null>(null)
@@ -245,5 +246,6 @@ const ShowDocuments = ({ searchTerm = "" }: ShowDocumentsProps) => {
     </motion.div>
   )
 }
+)
 
 export default ShowDocuments
