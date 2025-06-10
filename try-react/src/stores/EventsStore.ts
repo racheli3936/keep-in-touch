@@ -11,6 +11,8 @@ class EventsStore {
         makeAutoObservable(this)
     }
     async addEvent(data: Partial<MyFile>) {
+        console.log(data, "data in addEvent");
+        
         const token = localStorage.getItem('token');
         try {
             const response = await axios.post('https://keepintouch.onrender.com/api/File', data, {
@@ -20,6 +22,7 @@ class EventsStore {
                 }
             });
             this.currentEventAdd=response.data
+
             console.log(this.currentEventAdd,"currentEventAdd");
             
             this.Eventlist.push(response.data); 
