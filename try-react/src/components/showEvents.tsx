@@ -50,8 +50,8 @@ const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
     setDownloadingIndex(index)
 
     try {
-      await EventsStore.getEvevntByGroupId()
-      const allUrls = EventsStore.urlList
+       await EventsStore.getEvevntByGroupId()
+       const allUrls = EventsStore.urlList
       const renderUrl = allUrls.find((u) => extractNameFromUrl(u) === extractNameFromUrl(url))
 
       if (renderUrl) {

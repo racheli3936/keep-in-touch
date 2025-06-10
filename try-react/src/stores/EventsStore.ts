@@ -20,7 +20,8 @@ class EventsStore {
                 }
             });
             this.currentEventAdd=response.data
-            this.Eventlist.push(response.data); // הוספת ההודעה שנוספה
+            this.Eventlist.push(response.data); 
+            this.urlList.push(response.data.filePath);
         } catch (error) {
             console.error('Error uploading file:', error);
         }
