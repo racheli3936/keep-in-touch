@@ -12,7 +12,17 @@ import EventsStore from "../stores/EventsStore"
 import GroupStore from "../stores/GroupStore"
 import { FilePreview, UploadButton, UploadProgress } from "../styleComponent/Uploader"
 import { FileUploaderModalProps, itemVariants, modalVariants } from "../styleComponent/uploaderFunctions"
-
+type eventData = {
+  groupId: number,
+  fileName: string,
+  filePath: string,
+  FileSize: number,
+  Category: ECategory,
+  Description: string,
+  Content: string,
+  FileType: string,
+  eventDate: Date
+}
 const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, onUploadSuccess }) => {
   const [file, setFile] = useState<File | null>(null)
   const [progress, setProgress] = useState(0)
@@ -32,11 +42,11 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     primary: "#4361EE", secondary: "#3A0CA3", accent1: "#4CC9F0",
     accent2: "#F72585", accent3: "#7209B7", light: "#F8F9FA", dark: "#212529"
   }
-useEffect(() => {
+  useEffect(() => {
     if (newContent) {
-        saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
+      saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
     }
-}, [newContent]);
+  }, [newContent]);
 
   useEffect(() => {
     if (open) {
@@ -52,7 +62,7 @@ useEffect(() => {
 
   useEffect(() => {
     if (file && url !== "" && eventDate) {
-      const data = {
+      const data:eventData = {
         groupId: GroupStore.currentGroup.id,
         fileName: file.name,
         filePath: url,
@@ -131,7 +141,7 @@ useEffect(() => {
       try {
         await getDownloadUrl()
         await extractTextFromImg()
-        
+
       }
       catch (e: any) {
         console.log(e);
@@ -163,10 +173,10 @@ useEffect(() => {
   }
 
   const extractTextFromImg = async () => {
-    try {                              
+    try {
       const response = await axios.post(`https://keepintouch.onrender.com/api/File/readtext?fileName=${file?.name}`)
       console.log(response.data);
-      
+
       setNewContent(response.data as string)
     } catch (err) {
       console.log("Error in extractTextFromImg", err)
@@ -174,10 +184,10 @@ useEffect(() => {
   }
 
   const saveTheContentOfTheFile = async () => {
-    
+
     console.log(EventsStore.currentEventAdd, "currentEventAdd");
-    
-    const eventId=EventsStore.currentEventAdd?.id
+
+    const eventId = EventsStore.currentEventAdd?.id
     try {
       await axios.put(
         `https://keepintouch.onrender.com/api/File/${eventId}/content`,
