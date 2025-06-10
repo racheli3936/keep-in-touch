@@ -72,7 +72,6 @@ const UserAvatar = () => {
   };
 
   const handleLogout = () => {
-    console.log("try log out");
     localStorage.removeItem('token')
     handleClose();
     setRefresh(!refresh)

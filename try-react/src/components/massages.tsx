@@ -59,9 +59,6 @@ const Messages = observer(() => {
     };
 
     const deleteMessage = async (messageId: number, userId: number) => {
-        console.log(userId,'userId');
-        console.log(currentUserId,'currentUserId');
-        
         if (userId != currentUserId) {
             errorAlert("אין לך הרשאות למחוק הודעה זו");
         } else {
@@ -134,7 +131,6 @@ const Messages = observer(() => {
         );
 
         sortedMessages.forEach(message => {
-            console.log(currentGroup, "currentGroup");
             // אם אין קבוצה נוכחית או אם השולח שונה או אם עברו יותר מ-5 דקות
             const isSameUser = currentGroup && currentGroup.userId == message.userId;
             const timeDiff = currentGroup && message.createdDate && currentGroup.messages[currentGroup.messages.length - 1].createdDate
@@ -142,9 +138,6 @@ const Messages = observer(() => {
                 : Infinity;
 
             if (!isSameUser || timeDiff > 5 * 60 * 1000) {
-                console.log(message, "message");
-                console.log(UserStore.Userslist, "usersLIst");
-                // 5 דקות בין הודעות יוצר קבוצה חדשה
                 currentGroup = {
                     userId: message.userId,
                     userName: UserStore.Userslist.find(u => u.id == message.userId)?.name || '',
@@ -161,9 +154,6 @@ const Messages = observer(() => {
     };
 
     const messageGroups = groupMessagesBySender();
-    console.log(messageGroups, 'messageGroup');
-
-
     return (
         <Box sx={{
             height: '100vh',

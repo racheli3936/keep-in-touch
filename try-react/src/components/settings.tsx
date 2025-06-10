@@ -4,7 +4,6 @@ const Settings = ({ open, onClose }:{open:boolean,onClose:any}) => {
   const theme = useTheme();
 
   const handleSaveSettings = () => {
-    console.log("Settings saved");
     onClose();
   };
 

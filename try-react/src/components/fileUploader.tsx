@@ -34,8 +34,6 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   }
 useEffect(() => {
     if (newContent) {
-  
-      console.log('newContentSunDay', newContent);
         saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
     }
 }, [newContent]);
@@ -133,8 +131,6 @@ useEffect(() => {
       try {
         await getDownloadUrl()
         await extractTextFromImg()
-        //await saveTheContentOfTheFile()
-        console.log("i extract");
         
       }
       catch (e: any) {
@@ -178,10 +174,7 @@ useEffect(() => {
   }
 
   const saveTheContentOfTheFile = async () => {
-    console.log("new----contect",newContent,"new-------content");
     const eventId=EventsStore.currentEventAdd?.id
-    console.log(eventId,"eventId");
-    
     try {
       await axios.put(
         `https://keepintouch.onrender.com/api/File/${eventId}/content`,

@@ -36,7 +36,6 @@ class GroupStore {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-                console.log("groups for user", response);
                 this.Groupslist=response.data               
             } catch (error: any) {
                 console.log(error.response ? error.response.data : error.message);

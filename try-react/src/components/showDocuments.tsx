@@ -22,7 +22,6 @@ const ShowDocuments = ({ searchTerm = "" }: ShowDocumentsProps) => {
       try {
         await EventsStore.getEvevntByGroupId()
         await setUrls(EventsStore.urlList)
-        console.log(urls, "urls");
       } catch (error) {
         console.error("Error fetching documents:", error)
       } finally {

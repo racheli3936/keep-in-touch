@@ -24,7 +24,6 @@ const CalendarEvent = () => {
       await EventsStore.getEvevntByGroupId();
       const fetchedEvents: EventsCalender[] = EventsStore.Eventlist
         .filter(event => {
-          // בדוק אם fileType הוא קובץ תמונה
           const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
           return event.fileType && imageExtensions.some(ext => event.fileType.toString().endsWith(ext));
         })
@@ -42,7 +41,7 @@ const CalendarEvent = () => {
             textColor: 'pink',
             extendedProps: {
               imageUrl: event.filePath,
-              category: event.category 
+              category: event.category
             }
           };
         });
@@ -50,7 +49,7 @@ const CalendarEvent = () => {
     };
     fetchEvents();
   }, []);
-  const handleEventClick = (clickInfo: any) => { 
+  const handleEventClick = (clickInfo: any) => {
     setSelectedEvent(clickInfo.event);
   };
 
@@ -59,18 +58,9 @@ const CalendarEvent = () => {
   };
 
   const renderEventContent = (eventInfo: any) => {
-    console.log(eventInfo,"eventInfo");
-    
     return (
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '2px 4px',
-        borderRadius: '4px',
-        overflow: 'hidden',
-        width: '100%'
-      }}>
+      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '2px 4px', borderRadius: '4px', overflow: 'hidden', width: '100%'}}>
         <Typography
           variant="body2"
           sx={{
@@ -79,9 +69,8 @@ const CalendarEvent = () => {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             fontSize: isMobile ? '0.7rem' : '0.875rem'
-          }}
-        >
-    {eventInfo.event.title}
+          }}>
+          {eventInfo.event.title}
         </Typography>
       </Box>
     );
@@ -96,21 +85,15 @@ const CalendarEvent = () => {
         gutterBottom
         sx={{ textAlign: 'center', fontWeight: 700, color: theme.palette.primary.main, mb: 2, px: 2 }}>
         <EventIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-        לוח האירועים
+         לוח האירועים
       </Typography>
 
       <Paper
         elevation={6}
-        sx={{
-          p: isMobile ? 1 : 2,
-          borderRadius: 3,
-          background: 'linear-gradient(to bottom, #ffffff, #f7fafd)',
-          boxShadow: '0 8px 32px rgba(100, 100, 255, 0.1)',
-          border: '1px solid rgba(220, 230, 255, 0.8)',
-          width: '100%',
-          mx: 'auto'
-        }}
-      >
+        sx={{ p: isMobile ? 1 : 2,
+          borderRadius: 3, background: 'linear-gradient(to bottom, #ffffff, #f7fafd)',
+          boxShadow: '0 8px 32px rgba(100, 100, 255, 0.1)', border: '1px solid rgba(220, 230, 255, 0.8)',
+          width: '100%', mx: 'auto'}} >
         <Box sx={{
           '& .fc': {
             fontFamily: theme.typography.fontFamily,
@@ -236,13 +219,13 @@ const CalendarEvent = () => {
           </DialogTitle>
 
           <DialogContent sx={{ p: 0 }}>
-            {selectedEvent.extendedProps?.imageUrl&& (
+            {selectedEvent.extendedProps?.imageUrl && (
               <Box sx={{ position: 'relative', height: 200, width: '100%', overflow: 'hidden' }}>
                 <img
                   src={selectedEvent.extendedProps?.imageUrl}
                   alt="Event"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    
+
                 <Box sx={{
                   position: 'absolute', bottom: 0, left: 0, right: 0,
                   background: 'linear-gradient(transparent, rgba(0,0,0,0.7))', color: 'white', p: 2
@@ -271,9 +254,7 @@ const CalendarEvent = () => {
           </DialogContent>
 
           <DialogActions sx={{ p: 2, backgroundColor: theme.palette.grey[50] }}>
-            <Button
-              onClick={handleClose}
-              variant="contained"
+            <Button onClick={handleClose} variant="contained"
               sx={{ backgroundColor: '#FF5729', '&:hover': { backgroundColor: '#9C27B0' }, borderRadius: 8, px: 3 }}>
               סגור
             </Button>

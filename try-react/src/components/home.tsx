@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { Search, Plus } from "lucide-react";
 import "./homeStyle.css";
 import { Group, Massage, MyFile, UserContext } from "../types/types";
 import { observer } from "mobx-react-lite";
@@ -36,7 +35,6 @@ const Home = observer(() => {
   }, [activeGroups]);
    useEffect(() => {
     const totalSize = recentFiles.reduce((accumulator, file) => {
-      console.log(`File: ${file.fileName}, Size: ${file.fileSize}`);
       return accumulator + file.fileSize;
     }, 0) / (1024 * 1024);
     
@@ -75,17 +73,12 @@ const Home = observer(() => {
   }
   return (
     <div className="container">
-      {/* Main Content */}
       <main className="main">
         <div className="main-content">
-          {/* Main Content Column */}
           <div className="main-column">
-            {/* Welcome Section */}
             <div className="card">
               <h2 className="section-title">ברוך הבא, {context.user?.name}!</h2>
-              <p className="welcome-text">
-                מה תרצה לעשות היום? שתף קבצים, שלח הודעות או צור קבוצות חדשות.
-              </p>
+              <p className="welcome-text"> מה תרצה לעשות היום?</p>
               <div className="action-buttons">
                 <div className="action-button upload-button">  ⬆️
                   <span className="upload-button-text">העלאת קובץ</span>
@@ -111,7 +104,7 @@ const Home = observer(() => {
                 {recentFiles.slice(-3).map(file => (
                   <div
                     key={file.id}
-                    className={`file-item ${hoveredFile === file.id ? 'file-item-hover' : ''}`}
+                    className={`file-item ${hoveredFile == file.id ? 'file-item-hover' : ''}`}
                     onMouseEnter={() => setHoveredFile(file.id)}
                     onMouseLeave={() => setHoveredFile(null)}
                   >
@@ -128,13 +121,10 @@ const Home = observer(() => {
                   </div>
                 ))}
               </div>
-              <button className="add-file-button" onClick={navigateDashboard}>
-               <Plus size={16} className="icon-margin-left" />
+              <button className="add-file-button" onClick={navigateDashboard}>+
                 <span>העלאת קובץ חדש</span>
               </button>
             </div>
-
-            {/* What's New / Tips */}
             <div className="whats-new-card">
               <div className="whats-new-header">
                 <button className="settings-button">⚙️</button>
@@ -167,9 +157,7 @@ const Home = observer(() => {
                 placeholder="חיפוש קבצים, הודעות, אנשים..."
                 className="search-input"
               />
-              <div className="search-icon">
-                {typeof Search === 'function' ? <Search size={20} /> : "🔍"}
-              </div>
+              <div className="search-icon">🔍</div>
             </div>
 
             {/* Notifications */}

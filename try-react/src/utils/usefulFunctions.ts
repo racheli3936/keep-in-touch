@@ -32,14 +32,11 @@ interface CustomJwtPayload extends JwtPayload {
 export const extractIdFromToken=(token:string)=>{
         const decodedToken= jwtDecode<CustomJwtPayload>(token);
         const userId = decodedToken.unique_name;
-        console.log('token',token)
-        console.log('User ID:', userId);
     return userId
 }
 export const sendEmail = async (emailData:EmailRequest) => {
     try {
         const response = await axios.post('https://keepintouch.onrender.com/api/Mail/api/send-email', emailData);
-        console.log(response,"**mail");
         return response
         
     } catch (error:any) {

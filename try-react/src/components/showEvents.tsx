@@ -4,12 +4,14 @@ import { Box, Grid, Card, CardMedia, CardActions, Button, Typography, Skeleton, 
 import { Download, ZoomIn, X, ImageIcon } from "lucide-react"
 import EventsStore from "../stores/EventsStore"
 import { staggerContainerVariants, itemVariants, hoverVariants } from "./themeProvider"
+import { observer } from "mobx-react-lite"
+
 
 interface ShowEventsProps {
   searchTerm?: string
 }
 
-const ShowEvents = ({ searchTerm = "" }: ShowEventsProps) => {
+const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
   const [urls, setUrls] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -21,7 +23,6 @@ const ShowEvents = ({ searchTerm = "" }: ShowEventsProps) => {
       try {
         await EventsStore.getEvevntByGroupId()
         await setUrls(EventsStore.urlList)
-        console.log(urls, "urls");
       } catch (error) {
         console.error("Error fetching images:", error)
       } finally {
@@ -246,5 +247,6 @@ const ShowEvents = ({ searchTerm = "" }: ShowEventsProps) => {
     </motion.div>
   )
 }
+)
 
 export default ShowEvents

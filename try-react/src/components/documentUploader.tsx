@@ -121,8 +121,6 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
       })
 
       await getDownloadUrl()
-      console.log("after get url");
-      console.log("after save");
       setShowSuccess(true)
       setIsUploading(false)
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import OpenNewGroup from "./openNewGroup";
 import { Link, Outlet } from "react-router-dom";
-import { Container, Typography, Button, List, ListItem, Box, Paper, Divider, Fade, ThemeProvider, alpha, Grid } from "@mui/material";
+import { Container, Typography, Button, List, ListItem, Box, Paper, Divider, Fade, ThemeProvider, alpha, Grid} from "@mui/material";
 import GroupIcon from '@mui/icons-material/Group';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -56,12 +56,9 @@ const Dashboard = observer(() => {
                 flexDirection: 'column',
                 width: { xs: '100%',sm:'100%', md: '100%',lg:'auto' } // שינוי רוחב לסרגל צד
               }}>
-                <Box sx={{ 
-                  p: 3, 
+                <Box sx={{ p: 3, 
                   bgcolor: alpha(theme.palette.primary.main, 0.04),
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5
+                  display: 'flex', alignItems: 'center', gap: 1.5
                 }}>
                   <DashboardIcon color="primary" fontSize="large" />
                   <Typography variant="h5" fontWeight="500" color="primary.dark">
@@ -71,25 +68,13 @@ const Dashboard = observer(() => {
                 
                 <Divider />
                 
-                <Box sx={{ 
-                  p: 2,
-                  display: 'flex',
-                  justifyContent: 'center'
-                }}>
+                <Box sx={{ p: 2, display: 'flex', justifyContent: 'center'}}>
                   <OpenNewGroup />
-                </Box>
-                
+                </Box>              
                 <Divider />
-
                 <List sx={{ 
-                  flexGrow: 1, 
-                  overflowY: 'auto',
-                  p: 2,
-                  '& .MuiListItem-root': {
-                    mb: 1.5,
-                    p: 0
-                  }
-                }}>
+                  flexGrow: 1, overflowY: 'auto', p: 2,
+                  '& .MuiListItem-root': { mb: 1.5,  p: 0}}}>
                   {loading ? (
                     Array.from(new Array(3)).map((_, index) => (
                       <ListItem key={index}>
@@ -102,8 +87,7 @@ const Dashboard = observer(() => {
                         <ListItem>
                           <Link 
                             to={`/showGroup/${group.name}/${group.id}`} 
-                            style={{ textDecoration: 'none', width: '100%' }}
-                          >
+                            style={{ textDecoration: 'none', width: '100%' }}>
                             <Button 
                               fullWidth
                               variant="outlined" 
@@ -116,9 +100,7 @@ const Dashboard = observer(() => {
                                 '&:hover': {
                                   bgcolor: alpha(theme.palette.primary.main, 0.08),
                                 },
-                                px: 2,
-                                py: 1.5,
-                                borderRadius: 2
+                                px: 2, py: 1.5, borderRadius: 2
                               }}
                               startIcon={<GroupIcon />}
                             >
@@ -126,12 +108,8 @@ const Dashboard = observer(() => {
                                 <Typography fontWeight="500" noWrap>
                                   {group.name}
                                 </Typography>
-                                <Typography 
-                                  variant="caption" 
-                                  color="text.secondary" 
-                                  noWrap
-                                  sx={{ display: 'block' }}
-                                >
+                                <Typography variant="caption" color="text.secondary" 
+                                  noWrap sx={{ display: 'block' }}>
                                   מזהה מנהל: {group.adminId}
                                 </Typography>
                               </Box>
@@ -161,12 +139,7 @@ const Dashboard = observer(() => {
                   flexDirection: 'column',
                   p: 4
                 }}>
-                  <Typography 
-                    variant="h4" 
-                    color="primary" 
-                    gutterBottom
-                    sx={{ mb: 3 }}
-                  >
+                  <Typography variant="h4" color="primary" gutterBottom sx={{ mb: 3 }} >
                     לוח הבקרה
                   </Typography>
                   
@@ -184,41 +157,21 @@ const Dashboard = observer(() => {
                     </Box>
                   ) : GroupStore.Groupslist.length > 0 ? (
                     <Paper 
-                      sx={{ 
-                        p: 3,
-                        height: '100%',
-                        bgcolor: alpha(theme.palette.primary.light, 0.04),
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
+                      sx={{p: 3, height: '100%', bgcolor: alpha(theme.palette.primary.light, 0.04),
+                        display: 'flex',flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                       <Typography variant="h6" align="center" color="text.secondary">
                         בחר קבוצה מהרשימה כדי להציג את הפרטים שלה
                       </Typography>
 
-                      <Box sx={{ 
-                        display: 'flex', 
-                        flexWrap: 'wrap', 
-                        justifyContent: 'center',
-                        gap: 2,
-                        mt: 4
-                      }}>
+                      <Box sx={{ display: 'flex',flexWrap: 'wrap', justifyContent: 'center', gap: 2,mt: 4}}>
                         {GroupStore.Groupslist.slice(0, 3).map(group => (
                           <Paper 
                             key={group.id}
-                            sx={{ 
-                              p: 3, 
-                              width: '180px',
-                              textAlign: 'center',
+                            sx={{p: 3, width: '180px', textAlign: 'center',
                               transition: 'all 0.2s',
                               '&:hover': {
                                 transform: 'translateY(-4px)',
-                                boxShadow: '0 6px 12px rgba(0,0,0,0.08)'
-                              }
-                            }}
-                          >
+                                boxShadow: '0 6px 12px rgba(0,0,0,0.08)' }}}>
                             <Box sx={{ mb: 2 }}>
                               <GroupIcon fontSize="large" color="primary" />
                             </Box>
@@ -229,12 +182,9 @@ const Dashboard = observer(() => {
                               to={`/showGroup/${group.name}/${group.id}`}
                               style={{ textDecoration: 'none' }}
                             >
-                              <Button 
-                                size="small" 
-                                variant="contained"
+                              <Button size="small" variant="contained"
                                 onClick={() => GroupStore.setCurrentGroup(group)}
-                                sx={{ mt: 1 }}
-                              >
+                                sx={{ mt: 1 }}>
                                 פתח
                               </Button>
                             </Link>
@@ -243,14 +193,7 @@ const Dashboard = observer(() => {
                       </Box>
                     </Paper>
                   ) : (
-                    <Box sx={{ 
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height: '100%',
-                      gap: 2
-                    }}>
+                    <Box sx={{display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100%', gap: 2}}>
                       <AddCircleIcon sx={{ fontSize: 64, color: 'text.disabled' }} />
                       <Typography variant="h6" color="text.secondary">
                         אין עדיין קבוצות

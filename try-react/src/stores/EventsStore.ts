@@ -17,10 +17,8 @@ class EventsStore {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                    //'Content-Type': 'multipart/form-data' // חשוב לציין את סוג התוכן
                 }
             });
-            console.log(response.data, "response.data eventssssssssss");
             this.currentEventAdd=response.data
             this.Eventlist.push(response.data); // הוספת ההודעה שנוספה
         } catch (error) {
@@ -28,7 +26,7 @@ class EventsStore {
         }
     }
     async getEvevntByGroupId(groupId:number=GroupStore.currentGroup.id) {
-        const token = localStorage.getItem('token'); // Retrieve token from local storage
+        const token = localStorage.getItem('token'); 
         try {
             const response = await axios.get(`https://keepintouch.onrender.com/api/File/group/${groupId}`, {
                 headers: {
@@ -36,10 +34,7 @@ class EventsStore {
                 }
             });
             this.Eventlist=response.data
-          // this.urlList=response.data
           this.urlList = this.Eventlist.map(file => file.filePath); 
-          console.log(response.data, "response.data eventssssssssss11");
-          console.log(this.urlList, "this.urlList eventssssssssss22");
           
         } catch (error: any) {
             console.log(error.response ? error.response.data : error.message);

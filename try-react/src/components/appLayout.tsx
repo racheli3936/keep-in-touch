@@ -52,29 +52,14 @@ const AppLayout = () => {
           alignItems: 'center',
           minHeight: '100vh',
           background: 'linear-gradient(135deg, #1976d2 0%, #64b5f6 100%)',
-        }}
-      >
-        <Box sx={{ 
-          textAlign: 'center',
-          position: 'relative',
         }}>
+        <Box sx={{ textAlign: 'center', position: 'relative'}}>
           <CircularProgress size={80} thickness={5} sx={{color: '#FFFFFF', opacity: 0.9,}}/>
           <Fade in={true} timeout={700}>
-            <Box sx={{
-                width: 50,
-                height: 50,
-                borderRadius: '50%',
-                bgcolor: '#FF5722',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: 22,
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
+            <Box sx={{ width: 50, height: 50, borderRadius: '50%',
+                bgcolor: '#FF5722', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                color: 'white',  fontWeight: 'bold', fontSize: 22,
+                position: 'absolute',  top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                 zIndex: 2,
                 boxShadow: '0 4px 15px rgba(255, 87, 34, 0.5)'}}>
               <FamilyRestroomIcon />
@@ -117,9 +102,7 @@ const AppLayout = () => {
             backgroundColor: '#1976d2',
             color: '#ffffff', 
             '& .MuiAlert-icon': { color: '#ffffff' },
-            borderRadius: 2,
-            py: 1.5,
-            px: 3,
+            borderRadius: 2, py: 1.5, px: 3,
             fontWeight: 500,
             boxShadow: '0 4px 12px rgba(25, 118, 210, 0.3)'}}>
           {snackbarMessage}
@@ -141,15 +124,8 @@ const AppLayout = () => {
                   py: { xs: 1, md: 1 },
                 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Box sx={{
-                        bgcolor: '#FF5722', 
-                        width: 40, 
-                        height: 40, 
-                        mr: 2,
-                        borderRadius: '50%',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                    <Box sx={{bgcolor: '#FF5722', width: 40, height: 40, mr: 2, borderRadius: '50%',
+                       display: 'flex', justifyContent: 'center', alignItems: 'center',
                         boxShadow: '0 2px 8px rgba(255, 87, 34, 0.5)' }}>
                       <FamilyRestroomIcon sx={{ color: 'white' }} />
                     </Box>
@@ -181,13 +157,7 @@ const AppLayout = () => {
               </motion.div>
               
               <motion.div variants={itemVariants}>
-                <Box sx={{
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center', 
-                  px: 2,
-                  mb: 6
-                }}>
+                <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', px: 2, mb: 6}}>
                   <Grid container spacing={3} justifyContent="center" maxWidth="md">
                       <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} style={{ height: '100%' }}>
                         <Register setIsConnected={handleIsConnected} showSnackbar={showSnackbar} />
