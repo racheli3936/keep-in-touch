@@ -174,6 +174,8 @@ useEffect(() => {
   }
 
   const saveTheContentOfTheFile = async () => {
+    console.log(EventsStore.currentEventAdd, "currentEventAdd");
+    
     const eventId=EventsStore.currentEventAdd?.id
     try {
       await axios.put(

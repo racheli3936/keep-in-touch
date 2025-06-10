@@ -20,6 +20,8 @@ class EventsStore {
                 }
             });
             this.currentEventAdd=response.data
+            console.log(this.currentEventAdd,"currentEventAdd");
+            
             this.Eventlist.push(response.data); 
             this.urlList.push(response.data.filePath);
         } catch (error) {
