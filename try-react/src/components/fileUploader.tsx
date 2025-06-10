@@ -57,7 +57,7 @@ useEffect(() => {
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-        Category: ECategory.wedding,
+        Category: category,
         Description: description,
         Content: "picture",
         FileType: file.type,
