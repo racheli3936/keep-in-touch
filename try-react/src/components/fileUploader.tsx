@@ -67,7 +67,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-        Category: category,
+        Category:ECategory.bar_mitzva,
         Description: description,
         Content: "picture",
         FileType: file.type,
