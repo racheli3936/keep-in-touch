@@ -15,11 +15,11 @@ import Update from "./components/update";
 import CalendarEvent from "./components/calenderEvent";
 import Chat from "./components/chat";
 import ShowEvents from "./components/showEvents";
-import FileUploader from "./components/fileUploader";
 import Materials from "./components/materials";
 import Home from "./components/home";
 import ShowDocuments from "./components/showDocuments";
 import DocumentUploader from "./components/documentUploader";
+import FileUploaderModal from "./components/fileUploader";
 const Router = createBrowserRouter([
     {
         path: '/',
@@ -81,7 +81,7 @@ const Router = createBrowserRouter([
                             {
 
                                 path: 'fileUploader',
-                                element: <FileUploader open={false} onClose={function (): void {
+                                element: <FileUploaderModal open={false} onClose={function (): void {
                                     throw new Error("Function not implemented.");
                                 }} />
                             },

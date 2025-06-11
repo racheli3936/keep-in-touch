@@ -2,10 +2,8 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { motion, AnimatePresence } from "framer-motion"
-import {
-  Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
-  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem
-} from "@mui/material"
+import {Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
+  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem} from "@mui/material"
 import { Upload, Calendar, FileText, Check, AlertCircle, Image, X } from "lucide-react"
 import { ECategory } from "../types/types"
 import EventsStore from "../stores/EventsStore"
@@ -44,7 +42,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   }
   useEffect(() => {
     if (newContent) {
-      saveTheContentOfTheFile(); // קורא לפונקציה רק כאשר newContent מתעדכן
+      saveTheContentOfTheFile();
     }
   }, [newContent]);
 
