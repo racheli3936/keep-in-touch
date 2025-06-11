@@ -2,8 +2,10 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { motion, AnimatePresence } from "framer-motion"
-import {Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
-  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem} from "@mui/material"
+import {
+  Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
+  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem
+} from "@mui/material"
 import { Upload, Calendar, FileText, Check, AlertCircle, Image, X } from "lucide-react"
 import { ECategory } from "../types/types"
 import EventsStore from "../stores/EventsStore"
@@ -60,12 +62,12 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
 
   useEffect(() => {
     if (file && url !== "" && eventDate) {
-      const data:eventData = {
+      const data: eventData = {
         groupId: GroupStore.currentGroup.id,
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-        Category:category as ECategory,
+        Category: category as ECategory,
         Description: description,
         Content: "picture",
         FileType: file.type,
@@ -331,11 +333,13 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
                             }
                           }}
                         >
-                          {Object.values(ECategory).map((category) => (
-                            <MenuItem key={category} value={category}>
-                              {category}
-                            </MenuItem>
-                          ))}
+                          {Object.values(ECategory)
+                            .filter(value => !isNaN(Number(value))) // מסנן רק ערכים שהם מספרים
+                            .map((categoryValue) => (
+                              <MenuItem key={categoryValue} value={categoryValue}>
+                                {categoryValue}
+                              </MenuItem>
+                            ))}
                         </Select>
                       </FormControl>
                     </Grid>
