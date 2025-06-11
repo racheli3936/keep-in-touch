@@ -22,11 +22,11 @@ export type User ={
     userGroups: GroupUser[]}
     
 export enum ECategory {
-    wedding,
-    bar_mitzva,
-    brit,
-    party,
-    other
+    wedding="wedding",
+    bar_mitzva="bar_mitzva",
+    brit="brit",
+    party="party",
+    other="other"
 }
 export const categoryNames: { [key in ECategory]: string } = {
     [ECategory.wedding]: 'חתונה',
