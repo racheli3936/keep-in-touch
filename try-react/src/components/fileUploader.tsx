@@ -4,7 +4,8 @@ import axios from "axios"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
-  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem} from "@mui/material"
+  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem
+} from "@mui/material"
 import { Upload, Calendar, FileText, Check, AlertCircle, Image, X } from "lucide-react"
 import { ECategory } from "../types/types"
 import EventsStore from "../stores/EventsStore"
@@ -61,12 +62,12 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
 
   useEffect(() => {
     if (file && url !== "" && eventDate) {
-      const data:eventData = {
+      const data: eventData = {
         groupId: GroupStore.currentGroup.id,
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-        Category:category as ECategory,
+        Category: category as ECategory,
         Description: description,
         Content: "picture",
         FileType: file.type,
@@ -332,11 +333,18 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
                             }
                           }}
                         >
-                          {Object.values(ECategory).map((category) => (
+                          {Object.keys(ECategory)
+                            .filter((key) => !isNaN(Number(key))) // מסנן רק את המפתחות שהם מספרים
+                            .map((index) => (
+                              <MenuItem key={index} value={index}>
+                                {index}
+                              </MenuItem>
+                            ))}
+                          {/* {Object.values(ECategory).map((category) => (
                             <MenuItem key={category} value={category}>
                               {category}
                             </MenuItem>
-                          ))}
+                          ))} */}
                         </Select>
                       </FormControl>
                     </Grid>
