@@ -57,7 +57,12 @@ class EventsStore {
             console.log(res.data, "res delete event");
             
             this.Eventlist = this.Eventlist.filter(e => id != e.id);
+            console.log(this.urlList.length, "urlList count before delete");
+            
             this.urlList = this.urlList.filter(url => url !=eventUrl );
+            console.log(this.urlList.length, "urlList count after delete");
+            console.log('Event deleted successfully');
+            
         } catch (error: any) {
             console.error('Error deleting event:', error.response ? error.response.data : error.message);
         }
