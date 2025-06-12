@@ -24,7 +24,7 @@ const Router = createBrowserRouter([
     {
         path: '/',
         element: <AppLayout />,
-        errorElement: <>Main error 33</>,
+        errorElement: <>error element</>,
         children: [
             {
                 path: 'login',
@@ -53,11 +53,7 @@ const Router = createBrowserRouter([
                     {
                         path: 'openNewGroup',
                         element: <OpenNewGroup />,
-                    },
-                    {
-                        path: 'notifications',
-                        //   element: <Notifications />,
-                    },
+                    }
                 ],
             },
             {

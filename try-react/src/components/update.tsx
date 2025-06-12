@@ -8,10 +8,12 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {  successAlert } from "../utils/usefulFunctions";
+import { useNavigate } from "react-router-dom";
 const Update = () => {
     const [pressUpdate, setPressUpdate] = useState(true)
     const context = useContext(UserContext);
     const { user, setUser } = context;
+    const navigate=useNavigate()
     const [formData, setFormData] = useState({
         name: user?.name,
         phone: user?.phone,
@@ -32,9 +34,8 @@ const Update = () => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
        
-        const token = localStorage.getItem('token'); // או איך שאתה שומר את הטוקן
-        try {
-                                          
+        const token = localStorage.getItem('token');
+        try {                       
             const response = await axios.put('https://keepintouch.onrender.com/api/User', formData, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -56,6 +57,8 @@ const Update = () => {
             setUser(newUser)
             setPressUpdate(false); 
             successAlert('עדכנת בהצלחה!');
+            navigate(-1);
+            
             // כאן תוכל להוסיף לוגיקה נוספת, כמו רענון הנתונים או מעבר לדף אחר
         } catch (error:any) {
             console.error('Failed to update user', error.response);
