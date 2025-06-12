@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useRef, useState } from "react";
-import { User, UserContext } from "../types/types";
+import { EmailRequest, User, UserContext } from "../types/types";
 import axios from "axios";
 import { Box, Modal, Typography, useTheme, Fade, Divider, IconButton, Alert, CircularProgress, Tooltip } from "@mui/material";
 import { motion } from "framer-motion";
@@ -15,7 +15,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import CustomTextField from "../styleComponent/customInput";
 import { RegisterLoginButton, FamilyAvatar, RegisterLoginPaper, SubmitButton } from "../styleComponent/loginRegisterButton";
 import { useNavigate } from "react-router-dom";
-import { errorAlert } from "../utils/usefulFunctions";
+import { errorAlert, sendEmail } from "../utils/usefulFunctions";
 
 const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => void; showSnackbar: (message: string) => void; }) => {
     const [pressRegister, setPressRegister] = useState(false);
@@ -57,11 +57,11 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
             password: passwordRef.current?.value,
         };
         try {
-             await axios.get(`https://keepintouch.onrender.com/api/User/email/${emailRef.current?.value}`);
-             setPressRegister(false)
-          errorAlert('מייל זה כבר רשום במערכת')
+            await axios.get(`https://keepintouch.onrender.com/api/User/email/${emailRef.current?.value}`);
+            setPressRegister(false)
+            errorAlert('מייל זה כבר רשום במערכת')
         }
-        catch (error:any){
+        catch (error: any) {
             try {
 
                 await new Promise(resolve => setTimeout(resolve, 800));
@@ -81,6 +81,31 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
                 setPressRegister(false);
                 navigate('/')
                 setIsConnected();
+                const emailData: EmailRequest = {
+                    to: data.email || '',
+                    subject: 'נרשמת בהצלחה ל-KeepInTouch',
+                    body: `
+                                  <div style="direction: rtl; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #f8f9fa;">
+                                    <div style="background-color: #4a69bd; color: white; padding: 15px; border-radius: 10px 10px 0 0; text-align: center;">
+                                      <h1>ברוך הבא ל-KeepInTouch</h1>
+                                    </div>
+                                    <div style="padding: 20px;">
+                                      <h2>הצטרפת בהצלחה!</h2>
+                                      <p>נרשמת בהצלחה לKeppInTouch</p>
+                                      <p>להלן פרטי הכניסה שלך:</p>
+                                      <div style="background-color: #f1f2f6; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                                        <p><strong>שם משתמש:</strong> ${data.email}</p>
+                                        <p><strong>סיסמה:</strong> ${data.password}</p>
+                                      </div>
+                                      <p>אנא שמור על פרטי הכניסה שלך באופן מאובטח.</p>
+                                    </div>
+                                    <div style="background-color: #f1f2f6; padding: 15px; border-radius: 0 0 10px 10px; text-align: center; font-size: 12px;">
+                                      <p>הודעה זו נשלחה באופן אוטומטי, אין להשיב לה.</p>
+                                    </div>
+                                  </div>
+                                `
+                };
+                sendEmail(emailData);
                 showSnackbar("נרשמת בהצלחה!");
             } catch (error) {
                 console.error("Register failed:", error);
