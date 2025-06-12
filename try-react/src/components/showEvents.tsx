@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Box, Grid, Card, CardMedia, CardActions, Button, Typography, Skeleton, IconButton, Dialog, DialogContent, Tooltip, CircularProgress } from "@mui/material"
-import { Download, ZoomIn, X, ImageIcon } from "lucide-react"
+import { Download, ZoomIn, X, ImageIcon, Delete } from "lucide-react"
 import EventsStore from "../stores/EventsStore"
 import { staggerContainerVariants, itemVariants, hoverVariants } from "./themeProvider"
 import { observer } from "mobx-react-lite"
-
 
 interface ShowEventsProps {
   searchTerm?: string
 }
 
-const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
+const ShowEvents = observer(({ searchTerm = "" }: ShowEventsProps) => {
   const [urls, setUrls] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [downloadingIndex, setDownloadingIndex] = useState<number | null>(null)
+  const [deleteIndex, setDeletIndex] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -45,13 +45,31 @@ const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
     }
     return "other"
   }
+  const deleteImage = async (url: string) => {
+    setDeletIndex(true)
+    try {
+      const eventId = await getEventId(url)
+      EventsStore.deleteEvent(url, eventId ? eventId : 0)
+    }
+    catch (e: any) {
+      console.log(e);
+
+    }
+    finally {
+      setDeletIndex(false)
+    }
+
+  }
+  const getEventId = async (url: string) => {
+    return EventsStore.Eventlist.find(e => e.filePath == url)?.id
+  }
 
   const downloadImage = async (url: string, index: number) => {
     setDownloadingIndex(index)
 
     try {
-       await EventsStore.getEvevntByGroupId()
-       const allUrls = EventsStore.urlList
+      await EventsStore.getEvevntByGroupId()
+      const allUrls = EventsStore.urlList
       const renderUrl = allUrls.find((u) => extractNameFromUrl(u) === extractNameFromUrl(url))
 
       if (renderUrl) {
@@ -95,7 +113,7 @@ const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
         // Loading skeleton
         <Grid container spacing={3}>
           {Array.from(new Array(6)).map((_, index) => (
-            <Grid size={{ xs:12, sm:6, md:4}} key={index}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
               <Card sx={{ borderRadius: 2, overflow: "hidden" }}>
                 <Skeleton variant="rectangular" height={200} />
                 <Box sx={{ p: 2 }}>
@@ -128,7 +146,7 @@ const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
             const fileName = extractNameFromUrl(url)
 
             return (
-              <Grid size={{xs:12, sm:6, md:4}}  key={index}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <motion.div variants={itemVariants}>
                   <motion.div variants={hoverVariants} initial="initial" whileHover="hover">
                     <Card
@@ -177,6 +195,21 @@ const ShowEvents =observer( ({ searchTerm = "" }: ShowEventsProps) => {
                           disabled={downloadingIndex === index}
                         >
                           {downloadingIndex === index ? "Downloading..." : "Download"}
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          startIcon={
+                            deleteIndex ==true ? (
+                              <CircularProgress size={16} color="inherit" />
+                            ) : (
+                              <Delete size={16} />
+                            )
+                          }
+                          onClick={() => deleteImage(url)}
+                          disabled={deleteIndex == true}
+                        >
+                          {downloadingIndex === index ? "מוחק..." : "מחיקה"}
                         </Button>
 
                         <Tooltip title="Preview">

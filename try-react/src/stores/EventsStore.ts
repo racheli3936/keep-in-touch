@@ -46,5 +46,21 @@ class EventsStore {
             console.log(error.response ? error.response.data : error.message);
         }
     }
+    async deleteEvent(eventUrl: string,id:number) {
+        const token = localStorage.getItem('token'); 
+        try {
+           const res= await axios.delete(`https://keepintouch.onrender.com/api/File/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log(res.data, "res delete event");
+            
+            this.Eventlist = this.Eventlist.filter(e => id != e.id);
+            this.urlList = this.urlList.filter(url => url !=eventUrl );
+        } catch (error: any) {
+            console.error('Error deleting event:', error.response ? error.response.data : error.message);
+        }
+    }
 }
 export default new EventsStore()
