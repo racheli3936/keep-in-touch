@@ -8,6 +8,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupStore from "../stores/GroupStore";
 import { observer } from "mobx-react-lite";
 import theme from "../styleComponent/theme";
+import { getUserNameById } from "../utils/usefulFunctions";
 
 const Dashboard = observer(() => {
   const [error, setError] = useState<string|null>(null);
@@ -110,7 +111,7 @@ const Dashboard = observer(() => {
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary" 
                                   noWrap sx={{ display: 'block' }}>
-                                  מזהה מנהל: {group.adminId}
+                                  מזהה מנהל: {getUserNameById(group.adminId)}
                                 </Typography>
                               </Box>
                             </Button>

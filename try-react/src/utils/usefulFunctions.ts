@@ -2,6 +2,7 @@ import { jwtDecode, JwtPayload } from 'jwt-decode';
 import Swal from 'sweetalert2'
 import { EmailRequest } from '../types/types';
 import axios from 'axios';
+import UserStore from '../stores/UserStore';
 export const successAlert = (message: string,time:number=1100) => {
     return new Promise((resolve) => {
         Swal.fire({
@@ -50,4 +51,8 @@ export const sendEmail = async (emailData:EmailRequest) => {
            
         }
     }
+}
+export const getUserNameById=(id:number)=>
+{
+   return UserStore.Userslist.find(user => user.id === id)?.name || 'לא נמצא שם';
 }

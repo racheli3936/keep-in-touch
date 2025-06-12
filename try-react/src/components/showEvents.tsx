@@ -6,6 +6,7 @@ import EventsStore from "../stores/EventsStore"
 import { staggerContainerVariants, itemVariants, hoverVariants } from "./themeProvider"
 import { observer } from "mobx-react-lite"
 
+
 interface ShowEventsProps {
   searchTerm?: string
 }
@@ -194,7 +195,7 @@ const ShowEvents = observer(({ searchTerm = "" }: ShowEventsProps) => {
                           onClick={() => downloadImage(url, index)}
                           disabled={downloadingIndex === index}
                         >
-                          {downloadingIndex === index ? "Downloading..." : "Download"}
+                          {downloadingIndex === index ? "מוריד..." : "הורדה"}
                         </Button>
                         <Button
                           size="small"
@@ -209,7 +210,7 @@ const ShowEvents = observer(({ searchTerm = "" }: ShowEventsProps) => {
                           onClick={() => deleteImage(url)}
                           disabled={deleteIndex == true}
                         >
-                          {downloadingIndex === index ? "מוחק..." : "מחיקה"}
+                          {deleteIndex ==true ? "מוחק..." : "מחיקה"}
                         </Button>
 
                         <Tooltip title="Preview">
