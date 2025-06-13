@@ -111,7 +111,7 @@ const Dashboard = observer(() => {
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary" 
                                   noWrap sx={{ display: 'block' }}>
-                                  מזהה מנהל: {UserStore.getUserById(group.adminId).then(user => user.name || 'לא זמין')}
+                                  מזהה מנהל: {group.adminId}
                                 </Typography>
                               </Box>
                             </Button>
