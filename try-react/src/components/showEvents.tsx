@@ -51,6 +51,8 @@ const ShowEvents = observer(({ searchTerm = "" }: ShowEventsProps) => {
     try {
       const eventId = await getEventId(url)
       EventsStore.deleteEvent(url, eventId ? eventId : 0)
+      urls.splice(urls.indexOf(url), 1)
+      setUrls([...urls])
     }
     catch (e: any) {
       console.log(e);
