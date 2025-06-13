@@ -23,7 +23,9 @@ namespace Data.Repositories
         }
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _context.Users
+                .Include(u => u.UserGroups) // הנחה שיש לך קשר בין Users ל-GroupUsers
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<IEnumerable<User>> GetUsersByGroupIdAsync(int groupId)
