@@ -8,7 +8,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import GroupStore from "../stores/GroupStore";
 import { observer } from "mobx-react-lite";
 import theme from "../styleComponent/theme";
-import { getUserNameById } from "../utils/usefulFunctions";
 import UserStore from "../stores/UserStore";
 
 const Dashboard = observer(() => {
