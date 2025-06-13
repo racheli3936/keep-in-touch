@@ -9,6 +9,7 @@ import GroupStore from "../stores/GroupStore";
 import { observer } from "mobx-react-lite";
 import theme from "../styleComponent/theme";
 import { getUserNameById } from "../utils/usefulFunctions";
+import UserStore from "../stores/UserStore";
 
 const Dashboard = observer(() => {
   const [error, setError] = useState<string|null>(null);
@@ -111,7 +112,7 @@ const Dashboard = observer(() => {
                                 </Typography>
                                 <Typography variant="caption" color="text.secondary" 
                                   noWrap sx={{ display: 'block' }}>
-                                  מזהה מנהל: {getUserNameById(group.adminId)}
+                                  מזהה מנהל: {UserStore.getUserById(group.adminId).then(user => user.name || 'לא זמין')}
                                 </Typography>
                               </Box>
                             </Button>

@@ -62,5 +62,19 @@ class UserStore {
                         (error.response ? error.response.data : error.message);
                     }
     }
+    async getUserById(id: number) {
+        const token = localStorage.getItem('token'); // Retrieve token from local storage
+        try {
+            const response = await axios.get(`https://keepintouch.onrender.com/api/User/${id}`, {
+                headers: {  
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+           console.log('res', response.data);
+           return response.data;
+        } catch (error: any) {
+            console.error(error.response ? error.response.data : error.message);
+        }
+    }
 }
 export default new UserStore()
