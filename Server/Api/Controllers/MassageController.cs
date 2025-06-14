@@ -52,7 +52,7 @@ namespace Api.Controllers
                 Content = massage.Content,
                 GroupId = massage.GroupId,
                 UserId = userId,
-                CreatedDate = DateTime.Now,
+                CreatedDate = massage.CreatedDate,
                 FontSize = massage.FontSize,
                 Color = massage.Color
             };

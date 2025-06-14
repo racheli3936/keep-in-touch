@@ -6,5 +6,6 @@
         public int GroupId { get; set; }
         public string FontSize { get; set; }
         public string Color { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }
