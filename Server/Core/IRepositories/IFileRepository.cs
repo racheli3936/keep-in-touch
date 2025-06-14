@@ -16,5 +16,7 @@ namespace Core.IRepositories
         Task<bool> UpdateFileAsync(MyFile updatedfile);
         Task<bool> UpdateFileContentAsync(int fileId, string newContent);
         Task<bool> DeleteFileAsync(int id);
+      
+       
     }
 }

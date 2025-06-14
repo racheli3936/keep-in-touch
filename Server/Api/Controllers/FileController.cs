@@ -127,16 +127,18 @@ namespace Api.Controllers
         }
 
         // DELETE: api/file/{id}
+
+       
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFile(int id)
         {
-            var result = await _fileService.DeleteFileAsync(id);
+            bool result = await _fileService.DeleteFileAsync(id);
             if (!result)
             {
                 return NotFound();
             }
 
-            return NoContent();
+            return Ok(result);
         }
         [HttpPost("readtext")]
         public async Task<IActionResult> ReadTextFromImage(string fileName)
@@ -183,6 +185,7 @@ namespace Api.Controllers
             }
             finally
             {
+
                 // מחיקת התמונה מהשרת לאחר השימוש
                 //System.IO.File.Delete(imageUrl);
             }
@@ -190,22 +193,6 @@ namespace Api.Controllers
             return Ok(resultText);
         }
 
-        //private string ExtractTextFromImage(string imagePath)
-        //{
-
-        //    var tessDataPath = Path.Combine(AppContext.BaseDirectory, "tessdata");
-        //    using (var engine = new TesseractEngine(tessDataPath, "heb", EngineMode.Default))
-        //    {
-        //        using (var img = Pix.LoadFromFile(imagePath))
-        //        {
-        //            using (var page = engine.Process(img))
-        //            {
-        //                Console.WriteLine(page.GetText());
-        //                return page.GetText();
-        //            }
-        //        }
-        //    }
-        //}
         private string ExtractTextFromImage(string imagePath)
         {
             var tessdataPath = Environment.GetEnvironmentVariable("TESSDATA_PREFIX");
