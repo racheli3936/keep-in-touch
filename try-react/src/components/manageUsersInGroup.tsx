@@ -8,6 +8,7 @@ import {
   Button, TextField, DialogActions, DialogContentText, Box, Typography, Tooltip,
   IconButton, Paper, Fade, CircularProgress, Card, CardContent, Divider, Alert
 } from '@mui/material';
+import logo from '../assets/logo_fix.png';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -145,7 +146,7 @@ const GroupManagement = () => {
                 body: `
                   <div style="direction: rtl; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #f8f9fa;">
                     <div style="background-color: #4a69bd; color: white; padding: 15px; border-radius: 10px 10px 0 0; text-align: center;">
-                    <img src="../assets/logo_fix.png" alt="לוגו" style="max-width: 100px; margin-bottom: 10px;" />
+                    <img src="${logo}" alt="לוגו" style="max-width: 100px; margin-bottom: 10px;" />
                     <h1>ברוך הבא ל-KeepInTouch</h1>
                     </div>
                     <div style="padding: 20px;">
