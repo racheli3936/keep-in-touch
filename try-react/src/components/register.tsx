@@ -16,7 +16,7 @@ import CustomTextField from "../styleComponent/customInput";
 import { RegisterLoginButton, FamilyAvatar, RegisterLoginPaper, SubmitButton } from "../styleComponent/loginRegisterButton";
 import { useNavigate } from "react-router-dom";
 import { errorAlert, sendEmail } from "../utils/usefulFunctions";
-
+import logo_fix from '../assets/logo_fix.png';
 const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => void; showSnackbar: (message: string) => void; }) => {
     const [pressRegister, setPressRegister] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -88,7 +88,8 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
                     body: `
                                   <div style="direction: rtl; font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #f8f9fa;">
                                     <div style="background-color: #4a69bd; color: white; padding: 15px; border-radius: 10px 10px 0 0; text-align: center;">
-                                      <h1>ברוך הבא ל-KeepInTouch</h1>
+                                     <img src="${logo_fix}" alt="לוגו" style="max-width: 100px; margin-bottom: 10px;" />
+                                    <h1>ברוך הבא ל-KeepInTouch</h1>
                                     </div>
                                     <div style="padding: 20px;">
                                       <h2>הצטרפת בהצלחה!</h2>

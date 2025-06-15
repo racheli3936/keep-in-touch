@@ -206,7 +206,7 @@ const ShowDocuments = observer(({ searchTerm = "" }: ShowDocumentsProps) => {
       <Dialog
         open={!!selectedFile}
         onClose={closeFilePreview}
-        maxWidth="xl"
+        maxWidth="lg"
         PaperProps={{
           sx: {
             borderRadius: 3,
@@ -238,7 +238,7 @@ const ShowDocuments = observer(({ searchTerm = "" }: ShowDocumentsProps) => {
             <iframe
               src={selectedFile}
               title="Preview"
-              style={{ width: "100%", height: "100h", border: "none" }}
+              style={{ width: "100%", height: "90vh", border: "none" }}
             />
           )}
         </DialogContent>
