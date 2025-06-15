@@ -60,6 +60,7 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
             await axios.get(`https://keepintouch.onrender.com/api/User/email/${emailRef.current?.value}`);
             setPressRegister(false)
             errorAlert('מייל זה כבר רשום במערכת')
+            setLoading(false);
         }
         catch (error: any) {
             try {
@@ -112,6 +113,8 @@ const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => voi
                 setError('ההרשמה נכשלה. אנא בדוק את הפרטים שהזנת ונסה שוב.');
             } finally {
                 setLoading(false);
+                console.log(loading, "loading");
+                
             }
         }
 
