@@ -3,8 +3,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { motion, AnimatePresence } from "framer-motion"
 import {Box, Typography, TextField, Stack, Alert, Snackbar, Dialog, DialogContent, DialogTitle,
-  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem
-} from "@mui/material"
+  IconButton, Backdrop, Fade, alpha, Grid, FormControl, Select, InputLabel, MenuItem} from "@mui/material"
 import { Upload, FileText, Check, AlertCircle, Image, X } from "lucide-react"
 import { ECategory } from "../types/types"
 import EventsStore from "../stores/EventsStore"
@@ -161,7 +160,8 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
       open={open}
       onClose={!isUploading ? onClose : undefined}
       fullWidth
-      maxWidth="md"
+      maxWidth="sm"
+      
       sx={{ '& .MuiDialog-paper': { borderRadius: 3, overflow: 'hidden', boxShadow: `0 20px 60px -10px ${alpha(colors.accent3, 0.5)}`, } }}
       TransitionComponent={Fade}
       TransitionProps={{ timeout: 500 }}
@@ -186,14 +186,14 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
             </IconButton>
           </DialogTitle>
 
-          <DialogContent sx={{ p: { xs: 2, md: 4 } }}>
-            <Box sx={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", pt: 2 }}>
-              <Stack spacing={4} sx={{ width: "100%" }}>
+          <DialogContent sx={{ p:1 }}>
+            <Box sx={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", pt: 1 }}>
+              <Stack spacing={2} sx={{ width: "100%" }}>
                 {/* Drag & Drop Area */}
                 <motion.div custom={0} variants={itemVariants} whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} >
                   <Box sx={{
-                    border: `3px dashed ${isDragActive ? colors.accent2 : alpha(colors.primary, 0.3)}`,
-                    borderRadius: 4, p: 4, textAlign: "center", backgroundColor: isDragActive
+                    border: `2px dashed ${isDragActive ? colors.accent2 : alpha(colors.primary, 0.3)}`,
+                    borderRadius: 4, p: 2, textAlign: "center", backgroundColor: isDragActive
                       ? alpha(colors.accent1, 0.1)
                       : alpha(colors.light, 0.8),
                     transition: "all 0.3s ease", cursor: "pointer", position: "relative", overflow: "hidden",
@@ -302,6 +302,7 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
               </Stack>
             </Box>
           </DialogContent>
+          
         </motion.div>
         )}
       </AnimatePresence>

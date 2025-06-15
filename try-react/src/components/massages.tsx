@@ -12,6 +12,9 @@ import messageStore from '../stores/MassageStore';
 import GroupStore from '../stores/GroupStore';
 import { errorAlert, extractIdFromToken } from '../utils/usefulFunctions';
 import UserStore from '../stores/UserStore';
+import { format } from 'date-fns';
+import { he } from 'date-fns/locale';
+
 
 // אימוג'ים נפוצים
 const commonEmojis = [
@@ -49,7 +52,8 @@ const Messages = observer(() => {
                 content: inputValue,
                 groupId: GroupStore.currentGroup.id,
                 fontSize: fontSize,
-                color: color
+                color: color,
+                createdDate: new Date()
             };
             await messageStore.addMessage(massage);
             await messageStore.fetchMessages();
@@ -102,9 +106,12 @@ const Messages = observer(() => {
     };
 
     // פונקציה להמרת תאריך לפורמט מתאים
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' });
+    const formatDate = (date: Date) => {
+        console.log(date,'dateee');
+        
+        // const date = new Date(dateString);
+//  return date.toLocaleString( 'he-IL', { hour: '2-digit', minute: '2-digit' });
+   return format(date, 'HH:mm', { locale: he });
     };
 
     // האם ההודעה נשלחה על ידי המשתמש הנוכחי
@@ -117,6 +124,7 @@ const Messages = observer(() => {
         userId: number;
         userName: string;
         messages: Massage[];
+        createdDate?: Date;
         isCurrentUser: boolean;
     };
 
@@ -296,7 +304,7 @@ const Messages = observer(() => {
                                 }}
                             >
                                 {group.messages[group.messages.length - 1].createdDate &&
-                                    formatDate(group.messages[group.messages.length - 1].createdDate.toString())}
+                                    formatDate(group.messages[group.messages.length - 1].createdDate)}
                             </Typography>
                         </Box>
                     </Box>

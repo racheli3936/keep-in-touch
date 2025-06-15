@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { GradientTypography, HeroWrapper } from "../styleComponent/heroWarraped";
-import logoKeepNew from "../assets/logoKeepNew.png";
+import logo_fix  from "../assets/logo_fix.png";
 const Wellcome = () => {
     return(
         <>
@@ -15,7 +15,7 @@ const Wellcome = () => {
                         המקום האידיאלי לשיתוף קבצים ותקשורת עם הקבוצה שלך
                     </Typography>
                     <img 
-                    src={logoKeepNew}
+                    src={logo_fix}
                     alt="לוגו האתר"
                     style={{ width: '100%', height: 'auto', maxWidth: '500px', marginBottom: '0px' }} // הגדרת רוחב ל-100% וגובה ל-auto
                 />

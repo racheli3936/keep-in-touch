@@ -109,10 +109,7 @@ const Dashboard = observer(() => {
                                 <Typography fontWeight="500" noWrap>
                                   {group.name}
                                 </Typography>
-                                <Typography variant="caption" color="text.secondary" 
-                                  noWrap sx={{ display: 'block' }}>
-                                  מזהה מנהל: {group.adminId}
-                                </Typography>
+                               
                               </Box>
                             </Button>
                           </Link>

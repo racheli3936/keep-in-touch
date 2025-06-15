@@ -52,7 +52,7 @@ export const sendEmail = async (emailData:EmailRequest) => {
         }
     }
 }
-export const getUserNameById=(id:number)=>
+export const getUserById=(id:number)=>
 {
-   return UserStore.Userslist.find(user => user.id === id)?.name || 'לא נמצא שם';
+   return UserStore.Userslist.find(user => user.id === id);
 }
