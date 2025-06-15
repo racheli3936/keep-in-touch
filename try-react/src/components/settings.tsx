@@ -24,25 +24,55 @@ const Settings = ({ open, onClose }:{open:boolean,onClose:any}) => {
       <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
         הגדרות
       </DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="שנה סיסמה"
-          type="password"
-          fullWidth
-          variant="outlined"
-          sx={{ mb: 2 }}
-        />
-        <TextField
-          margin="dense"
-          label="הגדרות פרטיות"
-          type="text"
-          fullWidth
-          variant="outlined"
-        />
-        {/* הוספת שדות נוספים לפי הצורך */}
-      </DialogContent>
+     <DialogContent>
+  <TextField
+    autoFocus
+    margin="dense"
+    label="שנה סיסמה"
+    type="password"
+    fullWidth
+    variant="outlined"
+    sx={{ mb: 2 }}
+  />
+  <TextField
+    margin="dense"
+    label="הגדרות פרטיות"
+    type="text"
+    fullWidth
+    variant="outlined"
+  />
+  <TextField
+    margin="dense"
+    label="בחר נושא"
+    type="text"
+    fullWidth
+    variant="outlined"
+    select
+    SelectProps={{
+      native: true,
+    }}
+    sx={{ mb: 2 }}
+  >
+    <option value="light">בהיר</option>
+    <option value="dark">כהה</option>
+  </TextField>
+  <TextField
+    margin="dense"
+    label="שפה"
+    type="text"
+    fullWidth
+    variant="outlined"
+    select
+    SelectProps={{
+      native: true,
+    }}
+    sx={{ mb: 2 }}
+  >
+    <option value="hebrew">עברית</option>
+    <option value="english">אנגלית</option>
+  </TextField>
+</DialogContent>
+
       <DialogActions>
         <Button onClick={onClose} variant="outlined">
           סגור
