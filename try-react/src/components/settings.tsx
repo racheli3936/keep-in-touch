@@ -71,7 +71,39 @@ const Settings = ({ open, onClose }:{open:boolean,onClose:any}) => {
     <option value="hebrew">עברית</option>
     <option value="english">אנגלית</option>
   </TextField>
-</DialogContent>
+  <TextField
+  margin="dense"
+  label="הגדרות התראות"
+  type="text"
+  fullWidth
+  variant="outlined"
+  select
+  SelectProps={{
+    native: true,
+  }}
+  sx={{ mb: 2 }}
+>
+  <option value="email">מייל</option>
+  <option value="sms">SMS</option>
+  <option value="none">אין התראות</option>
+</TextField>
+<TextField
+  margin="dense"
+  label="שם משתמש"
+  type="text"
+  fullWidth
+  variant="outlined"
+  sx={{ mb: 2 }}
+/>
+<TextField
+  margin="dense"
+  label="אימות דו-שלבי"
+  type="checkbox"
+  fullWidth
+  variant="outlined"
+  sx={{ mb: 2 }}
+/>
+
 
       <DialogActions>
         <Button onClick={onClose} variant="outlined">
