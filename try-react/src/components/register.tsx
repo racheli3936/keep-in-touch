@@ -16,7 +16,7 @@ import CustomTextField from "../styleComponent/customInput";
 import { RegisterLoginButton, FamilyAvatar, RegisterLoginPaper, SubmitButton } from "../styleComponent/loginRegisterButton";
 import { useNavigate } from "react-router-dom";
 import { errorAlert, sendEmail } from "../utils/usefulFunctions";
-import logo_fix from '../assets/logo_fix.png';
+import logo_fix from '../assets/Logo_fix.png';
 const Register = ({ setIsConnected, showSnackbar, }: { setIsConnected: () => void; showSnackbar: (message: string) => void; }) => {
     const [pressRegister, setPressRegister] = useState(false);
     const [loading, setLoading] = useState(false);
