@@ -87,6 +87,7 @@ const Settings = ({ open, onClose }:{open:boolean,onClose:any}) => {
   <option value="sms">SMS</option>
   <option value="none">אין התראות</option>
 </TextField>
+
 <TextField
   margin="dense"
   label="שם משתמש"
@@ -104,7 +105,7 @@ const Settings = ({ open, onClose }:{open:boolean,onClose:any}) => {
   sx={{ mb: 2 }}
 />
 
-
+</DialogContent>
       <DialogActions>
         <Button onClick={onClose} variant="outlined">
           סגור
