@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { GradientTypography, HeroWrapper } from "../styleComponent/heroWarraped";
-import logo_fix  from "../assets/logo_fix.png";
+import logo_fix  from "../assets/Logo_fix.png";
 const Wellcome = () => {
     return(
         <>

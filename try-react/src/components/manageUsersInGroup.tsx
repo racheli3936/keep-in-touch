@@ -8,7 +8,7 @@ import {
   Button, TextField, DialogActions, DialogContentText, Box, Typography, Tooltip,
   IconButton, Paper, Fade, CircularProgress, Card, CardContent, Divider, Alert
 } from '@mui/material';
-import logo_fix from '../assets/logo_fix.png';
+import logo_fix from '../assets/Logo_fix.png'
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
