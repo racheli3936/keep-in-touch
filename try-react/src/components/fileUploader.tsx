@@ -18,7 +18,7 @@ type eventData = {
   filePath: string,
   FileSize: number,
   Category?: ECategory,
-  CategoryId?:number,
+  CategoryId?: number,
   Description: string,
   Content: string,
   FileType: string,
@@ -68,7 +68,7 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-       CategoryId: Number(category),
+        CategoryId: Number(category),
         Description: description,
         Content: "picture",
         FileType: file.type,
@@ -187,9 +187,10 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
   const saveTheContentOfTheFile = async () => {
 
     console.log(EventsStore.currentEventAdd, "currentEventAdd");
-
-    const eventId = EventsStore.currentEventAdd?.id
-    try {
+    let eventId = EventsStore.currentEventAdd?.id
+    setTimeout(async () => {
+      eventId = EventsStore.currentEventAdd?.id
+   try {
       await axios.put(
         `https://keepintouch.onrender.com/api/File/${eventId}/content`,
         newContent,
@@ -203,6 +204,9 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     } catch (error: any) {
       console.error("Error updating content:", error.response ? error.response.data : error.message)
     }
+    }, 3000);
+
+ 
   }
 
   const getFileIcon = () => {
