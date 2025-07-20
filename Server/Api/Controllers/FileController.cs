@@ -70,7 +70,29 @@ namespace Api.Controllers
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var userId = _tokenService.ExtractUserIdFromToken(token);
-            
+            ECategory category = new ECategory();
+            switch(filePost.Category)
+            {
+                case 1:
+                    category = ECategory.bar_mitzva;
+                    break;
+                case 2:
+                    category = ECategory.brit;
+                    break;
+                case 3:
+                    category = ECategory.party;
+                    break;
+                case 4:
+                    category = ECategory.wedding;
+                    break;
+                default:
+                    category = ECategory.other; 
+                    break;
+
+            }
+          
+                
+
             if (filePost == null)
             {
                 return BadRequest("File data is required.");
@@ -80,7 +102,7 @@ namespace Api.Controllers
                 FileName = filePost.FileName,
                 FilePath = filePost.FilePath,
                 FileSize = filePost.FileSize,
-                Category =ECategory.bar_mitzva,
+                Category =category,
                 Description = filePost.Description,
                 Content = filePost.Content,
                 FileType = filePost.FileType,
