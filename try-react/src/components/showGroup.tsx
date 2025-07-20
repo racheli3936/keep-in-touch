@@ -43,12 +43,12 @@ const ShowGroup = () => {
   }
 
   const tabs = [
-    { label: "Events", icon: <ImageIcon size={20} />, path: `/showGroup/${name}/${id}/events` },
-    { label: "Messages", icon: <MessageSquare size={20} />, path: `/showGroup/${name}/${id}/massages` },
-    { label: "Materials", icon: <FileText size={20} />, path: `/showGroup/${name}/${id}/materials` },
-    { label: "Members", icon: <Users size={20} />, path: `/showGroup/${name}/${id}/groupMembers` },
-    { label: "Calendar", icon: <Calendar size={20} />, path: `/showGroup/${name}/${id}/calender` },
-    { label: "Chat Bot", icon: <Bot size={20} />, path: `/showGroup/${name}/${id}/chat` },
+    { label: "אירועים", icon: <ImageIcon size={20} />, path: `/showGroup/${name}/${id}/events` },
+    { label: "צאט חברים", icon: <MessageSquare size={20} />, path: `/showGroup/${name}/${id}/massages` },
+    { label: "קבצים", icon: <FileText size={20} />, path: `/showGroup/${name}/${id}/materials` },
+    { label: "חברי הקבוצה", icon: <Users size={20} />, path: `/showGroup/${name}/${id}/groupMembers` },
+    { label: "לוח שנה", icon: <Calendar size={20} />, path: `/showGroup/${name}/${id}/calender` },
+    { label: "צאט בוט", icon: <Bot size={20} />, path: `/showGroup/${name}/${id}/chat` },
     { label: "ניהול החברים", icon: <Group size={20} />, path: `/showGroup/${name}/${id}/manageUsers` },
   ]
 
