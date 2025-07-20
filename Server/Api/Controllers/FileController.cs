@@ -70,7 +70,7 @@ namespace Api.Controllers
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var userId = _tokenService.ExtractUserIdFromToken(token);
-
+            
             if (filePost == null)
             {
                 return BadRequest("File data is required.");
@@ -80,7 +80,7 @@ namespace Api.Controllers
                 FileName = filePost.FileName,
                 FilePath = filePost.FilePath,
                 FileSize = filePost.FileSize,
-                Category = filePost.Category,
+                Category =ECategory.bar_mitzva,
                 Description = filePost.Description,
                 Content = filePost.Content,
                 FileType = filePost.FileType,
