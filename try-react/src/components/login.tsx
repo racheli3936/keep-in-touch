@@ -1,7 +1,6 @@
 import { useState, useContext, useRef } from 'react';
 import { UserContext } from '../types/types';
-import {
-  Box, Modal, Typography, InputAdornment, useTheme, IconButton, Fade,
+import { Box, Modal, Typography, InputAdornment, useTheme, IconButton, Fade,
   Divider, CircularProgress, Alert, Tooltip
 } from '@mui/material';
 import axios from 'axios';

@@ -53,7 +53,7 @@ const documentUploader: React.FC<FileUploaderModalProps> = ({ open, onClose, onU
         fileName: file.name,
         filePath: url,
         FileSize: file.size,
-        Category: ECategory.wedding,
+        //Category: ECategory.wedding,
         Description: description,
         Content: "picture",
         FileType: file.type,
