@@ -190,23 +190,25 @@ const FileUploaderModal: React.FC<FileUploaderModalProps> = ({ open, onClose, on
     let eventId = EventsStore.currentEventAdd?.id
     setTimeout(async () => {
       eventId = EventsStore.currentEventAdd?.id
-   try {
-      await axios.put(
-        `https://keepintouch.onrender.com/api/File/${eventId}/content`,
-        newContent,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+      try {
+        const res = await axios.put(
+          `https://keepintouch.onrender.com/api/File/${eventId}/content`,
+          newContent,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           },
-        },
-      )
-    } catch (error: any) {
-      console.error("Error updating content:", error.response ? error.response.data : error.message)
-    }
+        )
+        console.log(res,"content savvvvvvvvvvvvvvved");
+
+      } catch (error: any) {
+        console.error("Error updating content:", error.response ? error.response.data : error.message)
+      }
     }, 3000);
 
- 
+
   }
 
   const getFileIcon = () => {
