@@ -70,9 +70,14 @@ namespace Api.Controllers
         {
             var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             var userId = _tokenService.ExtractUserIdFromToken(token);
-            ECategory category = new ECategory();
+            ECategory category;
+            Console.WriteLine(filePost.Category);
+            Console.WriteLine("category Id");
             switch(filePost.Category)
             {
+                case 0:
+                    category=ECategory.wedding; 
+                    break;
                 case 1:
                     category = ECategory.bar_mitzva;
                     break;
