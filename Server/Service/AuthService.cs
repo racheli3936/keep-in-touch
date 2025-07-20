@@ -37,7 +37,7 @@ namespace Service
         }
         public async Task<(string token, User user)> LoginAsync(Login login)
         {
-            Console.WriteLine("IN LOGIN");
+           
             var user = await _authRepository.GetUserByEmailAndPasswordAsync(login.Email, login.Password);
             if (user == null)
             {
